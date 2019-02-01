@@ -1499,7 +1499,10 @@ wxWidgetImplType* wxWidgetImpl::CreateTextControl( wxTextCtrl* wxpeer,
         }
                 
         NSTextFieldCell* cell = [v cell];
-        [cell setUsesSingleLineMode:YES];
+//FIXME back ported from 3.1.1
+//        [cell setUsesSingleLineMode:YES];
+        [cell setWraps:NO];
+        [cell setScrollable:YES];
 
         c = new wxNSTextFieldControl( wxpeer, wxpeer, v );
         
