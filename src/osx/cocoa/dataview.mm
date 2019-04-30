@@ -2536,11 +2536,23 @@ void wxCocoaDataViewControl::DoSetIndent(int indent)
 
 void wxCocoaDataViewControl::HitTest(const wxPoint& point, wxDataViewItem& item, wxDataViewColumn*& columnPtr) const
 {
-    NSPoint const nativePoint = wxToNSPoint((NSScrollView*) GetWXWidget(),point);
+    NSTableHeaderView *headerView = [m_OutlineView headerView];
+    if (headerView && point.y < headerView.visibleRect.size.height) {
+        // The point is inside the header area.
+        columnPtr = NULL;
+        item      = wxDataViewItem();
+        return;
+    }
+
+    // Convert from the window coordinates to the virtual scrolled view coordinates.
+    NSScrollView *scrollView = [m_OutlineView enclosingScrollView];
+    const NSRect &visibleRect = scrollView.contentView.visibleRect;
+
+    NSPoint const nativePoint = wxToNSPoint((NSScrollView*) GetWXWidget(),
+        wxPoint(point.x + visibleRect.origin.x, point.y + visibleRect.origin.y));
 
     int indexColumn;
     int indexRow;
-
 
     indexColumn = [m_OutlineView columnAtPoint:nativePoint];
     indexRow    = [m_OutlineView rowAtPoint:   nativePoint];
