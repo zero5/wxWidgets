@@ -1716,7 +1716,8 @@ outlineView:(NSOutlineView*)outlineView
         if ( !dvc->GetEventHandler()->ProcessEvent(eventDV) )
             [super keyDown:event];
     }
-    else
+    //FIXME Vojtech's hack to get the accelerators assigned to the wxDataViewControl working.
+    else if (! implementation->DoHandleKeyEvent(event))
     {
         [super keyDown:event];  // all other keys
     }
