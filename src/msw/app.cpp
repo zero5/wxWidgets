@@ -657,7 +657,14 @@ const wxChar *wxApp::GetRegisteredClassName(const wxChar *name,
     wndclass.hInstance     = wxGetInstance();
     wndclass.hCursor       = ::LoadCursor(NULL, IDC_ARROW);
     wndclass.hbrBackground = (HBRUSH)wxUIntToPtr(bgBrushCol + 1);
-    wndclass.style         = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | extraStyles;
+    /* There was an issue, when users trying to open the drop down menu of a combo box inside the wxDataViewCtrl 
+     * had to do a three clicks (one to select the line, second click to activate the combo box, 
+     * third click to pop down the combo box menu), they are clicking fast, making Windows to register 
+     * as double clicks, effectively swallowing them.
+     * Thus, we decided to suppress a sending of double-click message to the window procedure 
+     * when the user double-clicks the mouse. 
+     */ 
+    wndclass.style         = CS_HREDRAW | CS_VREDRAW /*| CS_DBLCLKS*/ | extraStyles;
 
 
     ClassRegInfo regClass(name, flags);
