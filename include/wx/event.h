@@ -1783,6 +1783,10 @@ public:
     // should occur for each delta.
     int GetWheelDelta() const { return m_wheelDelta; }
 
+    // On Mac, has the user selected "Natural" scrolling in their System
+    // Preferences? Currently false on all other OS's.
+    bool IsWheelInverted() const { return m_wheelInverted; }
+
     // Gets the axis the wheel operation concerns; wxMOUSE_WHEEL_VERTICAL
     // (most common case) or wxMOUSE_WHEEL_HORIZONTAL (for horizontal scrolling
     // using e.g. a trackpad).
@@ -1816,6 +1820,7 @@ public:
     wxMouseWheelAxis m_wheelAxis;
     int           m_wheelRotation;
     int           m_wheelDelta;
+    bool          m_wheelInverted;
     int           m_linesPerAction;
     int           m_columnsPerAction;
     float         m_magnification;
