@@ -60,12 +60,18 @@ void wxClipboard::Clear()
 
 bool wxClipboard::Flush()
 {
-    return false;
+    wxCHECK_MSG( m_open, false, wxT("clipboard not open") );
+
+    wxOSXPasteboard::GetGeneralClipboard()->Flush();
+
+    return true;
 }
 
 bool wxClipboard::Open()
 {
     wxCHECK_MSG( !m_open, false, wxT("clipboard already open") );
+
+    Flush();
 
     m_open = true;
 
