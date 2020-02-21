@@ -71,8 +71,6 @@ bool wxClipboard::Open()
 {
     wxCHECK_MSG( !m_open, false, wxT("clipboard already open") );
 
-    Flush();
-
     m_open = true;
 
     return true;
@@ -110,6 +108,8 @@ bool wxClipboard::AddData( wxDataObject *data )
     Clear();
 
     data->WriteToSink(wxOSXPasteboard::GetGeneralClipboard());
+
+    Flush();
 
     m_data = data;
 
