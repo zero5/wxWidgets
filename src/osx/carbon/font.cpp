@@ -27,6 +27,7 @@
 #include "wx/tokenzr.h"
 
 #include "wx/osx/private.h"
+#include "wx/osx/private/available.h"
 
 #include <map>
 #include <string>
@@ -320,10 +321,6 @@ void wxFontRefData::AllocIfNeeded() const
 void wxFontRefData::Alloc()
 {
     wxCHECK_RET(m_info.GetPointSize() > 0, wxT("Point size should not be zero."));
-
-    // make sure the font descriptor has been processed properly
-    // otherwise the Post Script Name may not be valid yet
-    m_info.RealizeResource();
     
     // use font caching, we cache a font with a certain size and a font with just any size for faster creation
     wxString lookupnameNoSize = wxString::Format("%s_%d_%d", m_info.GetPostScriptName(), (int)m_info.GetStyle(), m_info.GetNumericWeight());
@@ -814,7 +811,6 @@ void wxNativeFontInfo::InitFromFontDescriptor(CTFontDescriptorRef desc)
     }
 
     wxCFTypeRef(CTFontDescriptorCopyAttribute(m_descriptor, kCTFontFamilyNameAttribute)).GetValue(m_familyName);
-    wxCFTypeRef(CTFontDescriptorCopyAttribute(m_descriptor, kCTFontNameAttribute)).GetValue(m_postScriptName);
 }
 
 void wxNativeFontInfo::Free()
@@ -872,7 +868,6 @@ void wxNativeFontInfo::CreateCTFontDescriptor()
     m_descriptor = descriptor;
     
     wxCFTypeRef(CTFontDescriptorCopyAttribute(m_descriptor, kCTFontFamilyNameAttribute)).GetValue(m_familyName);
-    wxCFTypeRef(CTFontDescriptorCopyAttribute(m_descriptor, kCTFontNameAttribute)).GetValue(m_postScriptName);
 
 #if wxDEBUG_LEVEL >= 2
     // for debugging: show all different font names
@@ -1018,10 +1013,6 @@ bool wxNativeFontInfo::FromString(const wxString& s)
 
 wxString wxNativeFontInfo::ToString() const
 {
-    // make sure the font descriptor has been processed properly
-    // otherwise the Post Script Name may not be valid yet
-    RealizeResource();
-    
     wxString s;
 
     s.Printf(wxT("%d;%s;%d;%d;%d;%d;%d;%s;%d"),
@@ -1060,7 +1051,14 @@ bool wxNativeFontInfo::GetUnderlined() const
 
 wxString wxNativeFontInfo::GetPostScriptName() const
 {
-    return m_postScriptName;
+    // return user-set PostScript name as-is
+    if ( !m_postScriptName.empty() )
+        return m_postScriptName;
+
+    // if not explicitly set, obtain it from the font descriptor
+    wxString ps;
+    wxCFTypeRef(CTFontDescriptorCopyAttribute(GetCTFontDescriptor(), kCTFontNameAttribute)).GetValue(ps);
+    return ps;
 }
 
 wxString wxNativeFontInfo::GetFaceName() const
