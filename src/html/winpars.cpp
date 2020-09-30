@@ -609,18 +609,19 @@ wxFont* wxHtmlWinParser::CreateCurrentFont()
     if (*fontptr == NULL)
     {
         *faceptr = face;
-        *fontptr = new wxFont(
-                       (int) (m_FontsSizes[fs] * m_FontScale),
-                       ff ? wxFONTFAMILY_MODERN : wxFONTFAMILY_SWISS,
-                       fi ? wxFONTSTYLE_ITALIC : wxFONTSTYLE_NORMAL,
-                       fb ? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL,
-                       fu ? true : false, face
-#if wxUSE_UNICODE
-                       );
-#else
-                       , m_OutputEnc);
-        *encptr = m_OutputEnc;
+
+	    wxFontInfo info((int)(m_FontsSizes[fs] * m_FontScale));
+        info
+            .Family(ff ? wxFONTFAMILY_MODERN : wxFONTFAMILY_SWISS)
+            .Style(fi ? wxFONTSTYLE_ITALIC : wxFONTSTYLE_NORMAL)
+            .Weight(wxFontBase::GetNumericWeightOf(fb ? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL))
+            .Underlined(fu ? true : false)
+            .FaceName(face);
+        *fontptr = new wxFont(info
+#if defined(__WXMSW__)
+        	, m_windowInterface->GetHTMLWindow()
 #endif
+        	);
     }
     m_DC->SetFont(**fontptr);
     return (*fontptr);
