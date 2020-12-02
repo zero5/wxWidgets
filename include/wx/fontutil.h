@@ -292,7 +292,7 @@ public:
     wxFontEncoding GetEncoding() const;
 
     void SetPointSize(int pointsize);
-    void SetFractionalPointSize(float pointsize
+    void SetFractionalPointSize(double pointsize
 #if defined(__WXMSW__)
     	, const wxWindow *window = nullptr
 #endif
@@ -309,7 +309,7 @@ public:
 
     // Helper used in many ports: use the normal font size if the input is
     // negative, as we handle -1 as meaning this for compatibility.
-    void SetSizeOrDefault(float size
+    void SetSizeOrDefault(double size
 #if defined(__WXMSW__)
     	, const wxWindow *window = nullptr
 #endif
