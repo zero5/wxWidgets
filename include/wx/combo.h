@@ -317,6 +317,9 @@ public:
     // Set side of the control to which the popup will align itself.
     // Valid values are wxLEFT, wxRIGHT and 0. The default value 0 wmeans
     // that the side of the button will be used.
+    //FIXME Vojtech: Also origin with wxUP or wxDOWN flags is newly supported.
+    // if neither wxUp nor wxDOWN is defined, the pop-up direction is automatic, down preferred.
+    // Otherwise the direction will be respected.
     void SetPopupAnchor( int anchorSide )
     {
         m_anchorSide = anchorSide;
@@ -666,7 +669,7 @@ protected:
     // left margin, in pixels
     wxCoord                 m_marginLeft;
 
-    // side on which the popup is aligned
+    // side on which the popup is aligned and in which direction it will pop up (down, up or automatic).
     int                     m_anchorSide;
 
     // Width of the "fake" border
