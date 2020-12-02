@@ -521,7 +521,7 @@ wxFontEncoding wxNativeFontInfo::GetEncoding() const
     return wxGetFontEncFromCharSet(lf.lfCharSet);
 }
 
-void wxNativeFontInfo::SetFractionalPointSize(float pointSizeNew, const wxWindow *window)
+void wxNativeFontInfo::SetFractionalPointSize(double pointSizeNew, const wxWindow *window)
 {
     // We don't have the correct DPI to use here, so use that of the
     // primary screen and rely on WXAdjustToPPI() changing it later if
