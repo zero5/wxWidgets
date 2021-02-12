@@ -23,6 +23,7 @@
 #endif
 
 #include "wx/combo.h"
+#include "wx/display.h"
 
 #ifdef __WXMSW__
 #include "wx/msw/private.h"
@@ -2286,6 +2287,9 @@ void wxComboCtrlBase::ShowPopup()
 
     SetFocus();
 
+    int displayIdx = wxDisplay::GetFromWindow(this);
+    wxRect displayRect = wxDisplay(displayIdx != wxNOT_FOUND ? displayIdx : 0u).GetGeometry();
+
     // Space above and below
     int screenHeight;
     wxPoint scrPos;
@@ -2294,8 +2298,11 @@ void wxComboCtrlBase::ShowPopup()
     int maxHeightPopup;
     wxSize ctrlSz = GetSize();
 
-    screenHeight = wxSystemSettings::GetMetric( wxSYS_SCREEN_Y, this );
-    scrPos = GetScreenPosition();
+    // wxSystemSettings::GetMetric( wxSYS_SCREEN_Y, this ) returns a geometry of the primary display
+    // And it causes wrong calculation of the popuping on secondary monitor.
+    // So, let's make all calculation in respect to the display of the provided window.
+    screenHeight = displayRect.height;//wxSystemSettings::GetMetric( wxSYS_SCREEN_Y, this );
+    scrPos = GetScreenPosition() - displayRect.GetTopLeft();
 
     spaceAbove = scrPos.y;
     spaceBelow = screenHeight - spaceAbove - ctrlSz.y;
@@ -2359,20 +2366,20 @@ void wxComboCtrlBase::ShowPopup()
     wxSize szp = popup->GetSize();
 
     int popupX;
-    int popupY = scrPos.y + ctrlSz.y;
+    int popupY = scrPos.y + ctrlSz.y + displayRect.GetTop();
 
     // Default anchor is wxLEFT
     int anchorSide = m_anchorSide & (wxLEFT | wxRIGHT);
     if ( !anchorSide )
         anchorSide = wxLEFT;
 
-    int rightX = scrPos.x + ctrlSz.x + m_extRight - szp.x;
-    int leftX = scrPos.x - m_extLeft;
+    int rightX = scrPos.x + ctrlSz.x + m_extRight - szp.x + displayRect.GetLeft();
+    int leftX = scrPos.x - m_extLeft + displayRect.GetLeft();
 
     if ( wxTheApp->GetLayoutDirection() == wxLayout_RightToLeft )
         leftX -= ctrlSz.x;
 
-    int screenWidth = wxSystemSettings::GetMetric( wxSYS_SCREEN_X, this );
+    int screenWidth = displayRect.width;// wxSystemSettings::GetMetric( wxSYS_SCREEN_X, this );
 
     // If there is not enough horizontal space, anchor on the other side.
     // If there is no space even then, place the popup at x 0.
@@ -2413,7 +2420,7 @@ void wxComboCtrlBase::ShowPopup()
         // Automatic: Pop up if it does not fit down.
         (anchorSideVertical == 0 && spaceBelow < szp.y ))
     {
-        popupY = scrPos.y - szp.y;
+        popupY = scrPos.y - szp.y + displayRect.GetTop();
         showFlags |= ShowAbove;
     }
 
