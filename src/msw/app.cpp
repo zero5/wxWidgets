@@ -67,6 +67,7 @@
 #include <ctype.h>
 
 #include "wx/msw/missing.h"
+#include "wx/msw/dark_mode.h"
 
 // instead of including <shlwapi.h> which is not part of the core SDK and not
 // shipped at all with other compilers, we always define the parts of it we
@@ -649,6 +650,8 @@ bool wxApp::Initialize(int& argc_, wxChar **argv_)
 
     // ensure that base cleanup is done if we return too early
     wxCallBaseCleanup callBaseCleanup(this);
+
+//    NppDarkMode::InitDarkMode();
 
     InitCommonControls();
 
