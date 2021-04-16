@@ -11,6 +11,13 @@
 #ifndef _WX_SETTINGS_H_BASE_
 #define _WX_SETTINGS_H_BASE_
 
+#ifdef __WXMSW__
+// define this when this patch is used
+#ifndef _MSW_DARK_MODE
+    #define _MSW_DARK_MODE            1
+#endif // _MSW_DARK_MODE
+#endif //__WXMSW__
+
 #include "wx/colour.h"
 #include "wx/font.h"
 

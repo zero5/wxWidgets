@@ -24,6 +24,8 @@
     #include "wx/utils.h"
 #endif //WX_PRECOMP
 
+#include "wx/msw/dark_mode.h"
+
 // ----------------------------------------------------------------------------
 // static data
 // ----------------------------------------------------------------------------
@@ -89,12 +91,16 @@ bool wxSystemAppearance::IsDark() const
 
 bool wxSystemAppearance::IsUsingDarkBackground() const
 {
+#ifdef _MSW_DARK_MODE
+    return NppDarkMode::IsDarkMode();
+#else
     const wxColour bg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
     const wxColour fg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 
     // The threshold here is rather arbitrary, but it seems that using just
     // inequality would be wrong as it could result in false positivies.
     return fg.GetLuminance() - bg.GetLuminance() > 0.2;
+#endif
 }
 
 wxSystemAppearance wxSystemSettingsNative::GetAppearance()
