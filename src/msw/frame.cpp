@@ -44,6 +44,7 @@
 #include "wx/msw/private.h"
 
 #include "wx/generic/statusbr.h"
+#include "wx/msw/dark_mode.h"
 
 #ifdef __WXUNIVERSAL__
     #include "wx/univ/theme.h"
@@ -900,6 +901,20 @@ WXLRESULT wxFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPara
                 processed = rc != 0;
             }
             break;
+
+        case WM_SETTINGCHANGE:
+        {
+            if (wxMenuBar* mbar = GetMenuBar())
+            {
+                for (size_t id = 0; id < mbar->GetMenuCount(); id ++)
+                {
+                    wxMenu* menu = mbar->GetMenu(id);
+                    for (wxMenuItem* item : menu->GetMenuItems())
+                        item->UpdateDefColors();
+                }
+            }
+            break;
+        }
     }
 #if wxUSE_TASKBARBUTTON
     if ( message == wxMsgTaskbarButtonCreated )

@@ -47,6 +47,7 @@
 #include "wx/msw/private.h"
 #include "wx/msw/dc.h"
 #include "wx/msw/uxtheme.h"
+#include "wx/msw/dark_mode.h"
 
 // ---------------------------------------------------------------------------
 // macro
@@ -371,6 +372,8 @@ void MenuDrawData::Init(wxWindow const* window)
         // native menu uses small top margin for separator
         if ( SeparatorMargin.cyTopHeight >= 2 )
             SeparatorMargin.cyTopHeight -= 2;
+
+        SeparatorSize.cy = 0;
     }
     else
 #endif // wxUSE_UXTHEME
@@ -463,12 +466,17 @@ void wxMenuItem::Init()
     // If we set the colors here and they are changed by the user during
     // the execution, then the colors are not updated until the application
     // is restarted and our menus look bad
+#if 0
     SetTextColour(wxNullColour);
     SetBackgroundColour(wxNullColour);
 
     // setting default colors switched ownerdraw on: switch it off again
     SetOwnerDrawn(false);
-
+#else
+    SetTextColour(NppDarkMode::GetTextColor());
+    SetBackgroundColour(NppDarkMode::GetBackgroundColor());
+    SetOwnerDrawn(true);
+#endif
     //  switch ownerdraw back on if using a non default margin
     if ( !IsSeparator() )
         SetMarginWidth(GetMarginWidth());
@@ -1127,6 +1135,24 @@ bool wxMenuItem::OnDrawItem(wxDC& dc, const wxRect& rc,
 
     return true;
 
+}
+
+void wxMenuItem::UpdateDefColors()
+{
+    if (IsOwnerDrawn()) {
+        struct update_colors {
+            static void run(wxMenuItem* item) {
+                item->SetTextColour(NppDarkMode::GetTextColor());
+                item->SetBackgroundColour(NppDarkMode::GetBackgroundColor());
+
+                if (item->IsSubMenu())
+                    for (wxMenuItem* sub_item : item->GetSubMenu()->GetMenuItems())
+                        update_colors::run(sub_item);
+            }
+        };
+
+        update_colors::run(this);
+    }
 }
 
 namespace

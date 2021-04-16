@@ -22,6 +22,9 @@
 #endif
 
 #include "wx/settings.h"
+#ifdef _WIN32
+#include "wx/msw/registry.h"
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/utils.h"
@@ -87,6 +90,15 @@ bool wxSystemAppearance::IsDark() const
 
 bool wxSystemAppearance::IsUsingDarkBackground() const
 {
+#ifdef _WIN32
+    wxRegKey rk(wxRegKey::HKCU,
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
+    if (rk.Exists() && rk.HasValue("AppsUseLightTheme")) {
+        long value = -1;
+        rk.QueryValue("AppsUseLightTheme", &value);
+        return value <= 0;
+    }
+#endif
     const wxColour bg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
     const wxColour fg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 

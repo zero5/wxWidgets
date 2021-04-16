@@ -47,6 +47,7 @@
 #include "wx/msw/missing.h"
 
 #include "wx/display.h"
+#include "wx/msw/dark_mode.h"
 
 // NB: wxDlgProc must be defined here and not in dialog.cpp because the latter
 //     is not included by wxUniv build which does need wxDlgProc
@@ -249,6 +250,9 @@ WXLRESULT wxTopLevelWindowMSW::MSWWindowProc(WXUINT message, WXWPARAM wParam, WX
 {
     WXLRESULT rc = 0;
     bool processed = false;
+
+    if (NppDarkMode::UAHWndProc(this->GetHWND(), message, wParam, lParam, &rc))
+        return rc;
 
     switch ( message )
     {
