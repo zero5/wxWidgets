@@ -3,8 +3,8 @@
 
 #include "wx/settings.h"
 
+#include "wx/msw/colour.h"
 #include "wx/msw/dark_mode.h"
-
 #include "wx/msw/dark_mode/dark_mode.h"
 #include "wx/msw/dark_mode/UAHMenuBar.h"
 
