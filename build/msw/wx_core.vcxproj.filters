@@ -747,6 +747,9 @@
     <ClCompile Include="..\..\src\msw\customdraw.cpp">
       <Filter>MSW Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\msw\dark_mode.cpp">
+      <Filter>MSW Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\msw\data.cpp">
       <Filter>MSW Sources</Filter>
     </ClCompile>
@@ -1067,9 +1070,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\xrc\xmlreshandler.cpp">
       <Filter>Common Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\msw\dark_mode.cpp">
-      <Filter>MSW Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\bmpbndl.cpp">
       <Filter>Common Sources</Filter>
@@ -1744,6 +1744,18 @@
     <ClInclude Include="..\..\include\wx\msw\custombgwin.h">
       <Filter>MSW Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\wx\msw\dark_mode.h">
+      <Filter>MSW Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\IatHook.h">
+      <Filter>MSW Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\UAHMenuBar.h">
+      <Filter>MSW Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\dark_mode.h">
+      <Filter>MSW Headers</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\wx\msw\datectrl.h">
       <Filter>MSW Headers</Filter>
     </ClInclude>
@@ -2316,9 +2328,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\wx\xrc\xmlreshandler.h">
       <Filter>Common Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\wx\msw\dark_mode.h">
-      <Filter>MSW Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\wx\bmpbndl.h">
       <Filter>Common Headers</Filter>

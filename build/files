@@ -1971,6 +1971,7 @@ MSW_LOWLEVEL_SRC =
     src/msw/utilswin.cpp
     src/msw/uxtheme.cpp
     src/msw/window.cpp
+    src/msw/dark_mode.cpp
 
 MSW_LOWLEVEL_HDR =
     wx/msw/evtloop.h
@@ -1984,6 +1985,10 @@ MSW_LOWLEVEL_HDR =
     wx/msw/sound.h
     wx/msw/taskbar.h
     wx/msw/uxtheme.h
+    wx/msw/dark_mode.h
+    wx/msw/dark_mode/IatHook.h
+    wx/msw/dark_mode/UAHMenuBar.h
+    wx/msw/dark_mode/dark_mode.h
 
 MSW_SRC =
     src/generic/activityindicator.cpp
