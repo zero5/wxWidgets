@@ -24,7 +24,9 @@
     #include "wx/utils.h"
 #endif //WX_PRECOMP
 
+#ifdef __WXMSW__
 #include "wx/msw/dark_mode.h"
+#endif
 
 // ----------------------------------------------------------------------------
 // static data
@@ -92,7 +94,7 @@ bool wxSystemAppearance::IsDark() const
 bool wxSystemAppearance::IsUsingDarkBackground() const
 {
 #ifdef _MSW_DARK_MODE
-    return NppDarkMode::IsDarkMode();
+    return NppDarkMode::IsEnabled();
 #else
     const wxColour bg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
     const wxColour fg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
