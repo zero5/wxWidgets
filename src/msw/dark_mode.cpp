@@ -50,17 +50,17 @@ namespace NppDarkMode
 
 	COLORREF GetBackgroundColor()
 	{
-		return wxSystemSettings::GetAppearance().IsDark() ? RGB(0x2B, 0x2B, 0x2B) : wxSystemSettings::GetColour(wxSYS_COLOUR_MENUBAR).GetRGB();
+		return /*wxSystemSettings::GetAppearance().IsDark()*/g_darkModeSupported ? RGB(0x2B, 0x2B, 0x2B) : wxSystemSettings::GetColour(wxSYS_COLOUR_MENUBAR).GetRGB();
 	}
 
 	COLORREF GetSofterBackgroundColor()
 	{
-		return RGB(0x78, 0x78, 0x78);
+		return g_darkModeSupported ? RGB(0x40, 0x40, 0x40) : RGB(0xD9, 0xD9, 0xD9); //RGB(0x78, 0x78, 0x78);
 	}
 
 	COLORREF GetTextColor()
 	{
-		return wxSystemSettings::GetAppearance().IsDark() ? RGB(0xF0, 0xF0, 0xF0) : wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT).GetRGB();
+		return /*wxSystemSettings::GetAppearance().IsDark()*/g_darkModeSupported ? RGB(0xF0, 0xF0, 0xF0) : wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT).GetRGB();
 	}
 
 	COLORREF GetDarkerTextColor()
@@ -110,7 +110,7 @@ namespace NppDarkMode
 	// return true if handled, false to continue with normal processing in your wndproc
 	bool UAHWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* lr)
 	{
-		if (!wxSystemSettings::GetAppearance().IsDark()/*NppDarkMode::IsEnabled()*/) {
+		if (!IsDarkMode()/*wxSystemSettings::GetAppearance().IsDark()//NppDarkMode::IsEnabled()*/) {
 			return false;
 		}
 
@@ -198,7 +198,10 @@ namespace NppDarkMode
 			if (iBackgroundStateID == MPI_NORMAL || iBackgroundStateID == MPI_DISABLED) {
 				FillRect(pUDMI->um.hdc, &pUDMI->dis.rcItem, NppDarkMode::GetBackgroundBrush());
 			}
-			else {
+			else if (iBackgroundStateID == MPI_HOT) {
+                FillRect(pUDMI->um.hdc, &pUDMI->dis.rcItem, NppDarkMode::GetSofterBackgroundBrush());
+            }
+            else {
 				DrawThemeBackground(g_menuTheme, pUDMI->um.hdc, MENU_POPUPITEM, iBackgroundStateID, &pUDMI->dis.rcItem, nullptr);
 			}
 			DTTOPTS dttopts = { sizeof(dttopts) };
@@ -233,7 +236,17 @@ namespace NppDarkMode
 		::InitDarkMode();
 	}
 
-	void AllowDarkModeForApp(bool allow)
+    bool IsDarkMode()
+    {
+        return g_darkModeSupported;
+    }
+
+    void SetDarkMode(bool dark_mode)
+	{
+        g_darkModeSupported = dark_mode;
+	}
+
+    void AllowDarkModeForApp(bool allow)
 	{
 		::AllowDarkModeForApp(allow);
 	}

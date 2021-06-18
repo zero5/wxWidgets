@@ -27,6 +27,8 @@ namespace NppDarkMode
 
 	// from DarkMode.h
 	void InitDarkMode();
+	bool IsDarkMode();
+	void SetDarkMode(bool set_dark_mode);
 	void AllowDarkModeForApp(bool allow);
 	bool AllowDarkModeForWindow(HWND hWnd, bool allow);
 	void RefreshTitleBarThemeColor(HWND hWnd);
