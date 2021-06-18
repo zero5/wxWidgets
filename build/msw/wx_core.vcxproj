@@ -1078,6 +1078,7 @@
     <ClCompile Include="..\..\src\generic\notifmsgg.cpp" />
     <ClCompile Include="..\..\src\common\bmpcboxcmn.cpp" />
     <ClCompile Include="..\..\src\generic\rowheightcache.cpp" />
+    <ClCompile Include="..\..\src\msw\dark_mode.cpp" />
     <ClCompile Include="..\..\src\generic\creddlgg.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -1516,6 +1517,10 @@
     <ClInclude Include="..\..\include\wx\richtooltip.h" />
     <ClInclude Include="..\..\include\wx\generic\gridsel.h" />
     <ClInclude Include="..\..\include\wx\dcbuffer.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\IatHook.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\dark_mode.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\UAHMenuBar.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode.h" />
     <ClInclude Include="..\..\include\wx\creddlg.h" />
     <ClInclude Include="..\..\include\wx\generic\creddlgg.h" />
   </ItemGroup>
