@@ -146,6 +146,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/msw/utilsexc.cpp
     src/msw/fswatcher.cpp
     src/msw/secretstore.cpp
+    src/msw/dark_mode.cpp
 </set>
 <set var="BASE_AND_GUI_WIN32_SRC" hints="files">
     src/msw/main.cpp
@@ -174,6 +175,10 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     wx/msw/wrapcdlg.h
     wx/msw/wrapwin.h
     wx/msw/fswatcher.h
+    wx/msw/dark_mode/dark_mode.h
+    wx/msw/dark_mode/IatHook.h
+    wx/msw/dark_mode.h
+    wx/msw/dark_mode/UAHMenuBar.h
 </set>
 
 <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->

@@ -76,6 +76,7 @@ set(BASE_WIN32_SRC
     src/msw/utils.cpp
     src/msw/utilsexc.cpp
     src/msw/fswatcher.cpp
+    src/msw/dark_mode.cpp
 )
 
 set(BASE_AND_GUI_WIN32_SRC
@@ -106,6 +107,10 @@ set(BASE_WIN32_HDR
     wx/msw/wrapcdlg.h
     wx/msw/wrapwin.h
     wx/msw/fswatcher.h
+    wx/msw/dark_mode/UAHMenuBar.h
+    wx/msw/dark_mode.h
+    wx/msw/dark_mode/IatHook.h
+    wx/msw/dark_mode/dark_mode.h
 )
 
 set(BASE_COREFOUNDATION_SRC

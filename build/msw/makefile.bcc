@@ -488,6 +488,7 @@ MONODLL_OBJECTS =  \
 	$(OBJS)\monodll_utilsexc.obj \
 	$(OBJS)\monodll_fswatcher.obj \
 	$(OBJS)\monodll_msw_secretstore.obj \
+	$(OBJS)\monodll_dark_mode.obj \
 	$(OBJS)\monodll_event.obj \
 	$(OBJS)\monodll_fs_mem.obj \
 	$(OBJS)\monodll_msgout.obj \
@@ -641,6 +642,7 @@ MONOLIB_OBJECTS =  \
 	$(OBJS)\monolib_utilsexc.obj \
 	$(OBJS)\monolib_fswatcher.obj \
 	$(OBJS)\monolib_msw_secretstore.obj \
+	$(OBJS)\monolib_dark_mode.obj \
 	$(OBJS)\monolib_event.obj \
 	$(OBJS)\monolib_fs_mem.obj \
 	$(OBJS)\monolib_msgout.obj \
@@ -788,6 +790,7 @@ BASEDLL_OBJECTS =  \
 	$(OBJS)\basedll_utilsexc.obj \
 	$(OBJS)\basedll_fswatcher.obj \
 	$(OBJS)\basedll_msw_secretstore.obj \
+	$(OBJS)\basedll_dark_mode.obj \
 	$(OBJS)\basedll_event.obj \
 	$(OBJS)\basedll_fs_mem.obj \
 	$(OBJS)\basedll_msgout.obj \
@@ -919,6 +922,7 @@ BASELIB_OBJECTS =  \
 	$(OBJS)\baselib_utilsexc.obj \
 	$(OBJS)\baselib_fswatcher.obj \
 	$(OBJS)\baselib_msw_secretstore.obj \
+	$(OBJS)\baselib_dark_mode.obj \
 	$(OBJS)\baselib_event.obj \
 	$(OBJS)\baselib_fs_mem.obj \
 	$(OBJS)\baselib_msgout.obj \
@@ -6789,6 +6793,9 @@ $(OBJS)\monodll_fswatcher.obj: ..\..\src\msw\fswatcher.cpp
 $(OBJS)\monodll_msw_secretstore.obj: ..\..\src\msw\secretstore.cpp
 	$(CXX) -q -c -P -o$@ $(MONODLL_CXXFLAGS) ..\..\src\msw\secretstore.cpp
 
+$(OBJS)\monodll_dark_mode.obj: ..\..\src\msw\dark_mode.cpp
+	$(CXX) -q -c -P -o$@ $(MONODLL_CXXFLAGS) ..\..\src\msw\dark_mode.cpp
+
 $(OBJS)\monodll_event.obj: ..\..\src\common\event.cpp
 	$(CXX) -q -c -P -o$@ $(MONODLL_CXXFLAGS) ..\..\src\common\event.cpp
 
@@ -9342,6 +9349,9 @@ $(OBJS)\monolib_fswatcher.obj: ..\..\src\msw\fswatcher.cpp
 
 $(OBJS)\monolib_msw_secretstore.obj: ..\..\src\msw\secretstore.cpp
 	$(CXX) -q -c -P -o$@ $(MONOLIB_CXXFLAGS) ..\..\src\msw\secretstore.cpp
+
+$(OBJS)\monolib_dark_mode.obj: ..\..\src\msw\dark_mode.cpp
+	$(CXX) -q -c -P -o$@ $(MONOLIB_CXXFLAGS) ..\..\src\msw\dark_mode.cpp
 
 $(OBJS)\monolib_event.obj: ..\..\src\common\event.cpp
 	$(CXX) -q -c -P -o$@ $(MONOLIB_CXXFLAGS) ..\..\src\common\event.cpp
@@ -11897,6 +11907,9 @@ $(OBJS)\basedll_fswatcher.obj: ..\..\src\msw\fswatcher.cpp
 $(OBJS)\basedll_msw_secretstore.obj: ..\..\src\msw\secretstore.cpp
 	$(CXX) -q -c -P -o$@ $(BASEDLL_CXXFLAGS) ..\..\src\msw\secretstore.cpp
 
+$(OBJS)\basedll_dark_mode.obj: ..\..\src\msw\dark_mode.cpp
+	$(CXX) -q -c -P -o$@ $(BASEDLL_CXXFLAGS) ..\..\src\msw\dark_mode.cpp
+
 $(OBJS)\basedll_event.obj: ..\..\src\common\event.cpp
 	$(CXX) -q -c -P -o$@ $(BASEDLL_CXXFLAGS) ..\..\src\common\event.cpp
 
@@ -12241,6 +12254,9 @@ $(OBJS)\baselib_fswatcher.obj: ..\..\src\msw\fswatcher.cpp
 
 $(OBJS)\baselib_msw_secretstore.obj: ..\..\src\msw\secretstore.cpp
 	$(CXX) -q -c -P -o$@ $(BASELIB_CXXFLAGS) ..\..\src\msw\secretstore.cpp
+
+$(OBJS)\baselib_dark_mode.obj: ..\..\src\msw\dark_mode.cpp
+	$(CXX) -q -c -P -o$@ $(BASELIB_CXXFLAGS) ..\..\src\msw\dark_mode.cpp
 
 $(OBJS)\baselib_event.obj: ..\..\src\common\event.cpp
 	$(CXX) -q -c -P -o$@ $(BASELIB_CXXFLAGS) ..\..\src\common\event.cpp

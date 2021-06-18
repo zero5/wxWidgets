@@ -774,6 +774,10 @@ ALL_PORTS_BASE_HEADERS =  \
 	wx/msw/wrapcdlg.h \
 	wx/msw/wrapwin.h \
 	wx/msw/fswatcher.h \
+	wx/msw/dark_mode/dark_mode.h \
+	wx/msw/dark_mode/IatHook.h \
+	wx/msw/dark_mode.h \
+	wx/msw/dark_mode/UAHMenuBar.h \
 	$(BASE_OSX_HDR) \
 	wx/fs_inet.h \
 	wx/protocol/file.h \
@@ -916,6 +920,7 @@ ALL_BASE_SOURCES =  \
 	src/msw/utilsexc.cpp \
 	src/msw/fswatcher.cpp \
 	src/msw/secretstore.cpp \
+	src/msw/dark_mode.cpp \
 	$(BASE_OSX_SRC) \
 	src/common/event.cpp \
 	src/common/fs_mem.cpp \
@@ -2674,7 +2679,11 @@ COND_PLATFORM_WIN32_1_BASE_PLATFORM_HDR =  \
 	wx/msw/wrapcctl.h \
 	wx/msw/wrapcdlg.h \
 	wx/msw/wrapwin.h \
-	wx/msw/fswatcher.h
+	wx/msw/fswatcher.h \
+	wx/msw/dark_mode/dark_mode.h \
+	wx/msw/dark_mode/IatHook.h \
+	wx/msw/dark_mode.h \
+	wx/msw/dark_mode/UAHMenuBar.h
 @COND_PLATFORM_WIN32_1@BASE_PLATFORM_HDR = $(COND_PLATFORM_WIN32_1_BASE_PLATFORM_HDR)
 COND_TOOLKIT_DFB_LOWLEVEL_HDR =  \
 	wx/generic/caret.h \
@@ -4271,7 +4280,8 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS =  \
 	monodll_msw_utils.o \
 	monodll_utilsexc.o \
 	monodll_fswatcher.o \
-	monodll_msw_secretstore.o
+	monodll_msw_secretstore.o \
+	monodll_dark_mode.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS \
 @COND_PLATFORM_WIN32_1@	= monodll_msw_main.o monodll_volume.o
@@ -6252,7 +6262,8 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_1 =  \
 	monolib_msw_utils.o \
 	monolib_utilsexc.o \
 	monolib_fswatcher.o \
-	monolib_msw_secretstore.o
+	monolib_msw_secretstore.o \
+	monolib_dark_mode.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS_1 = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_1)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS_1 \
 @COND_PLATFORM_WIN32_1@	= monolib_msw_main.o monolib_volume.o
@@ -8285,7 +8296,8 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_2 =  \
 	basedll_msw_utils.o \
 	basedll_utilsexc.o \
 	basedll_fswatcher.o \
-	basedll_msw_secretstore.o
+	basedll_msw_secretstore.o \
+	basedll_dark_mode.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS_2 = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_2)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS_2 \
 @COND_PLATFORM_WIN32_1@	= basedll_main.o basedll_volume.o
@@ -8368,7 +8380,8 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_3 =  \
 	baselib_msw_utils.o \
 	baselib_utilsexc.o \
 	baselib_fswatcher.o \
-	baselib_msw_secretstore.o
+	baselib_msw_secretstore.o \
+	baselib_dark_mode.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS_3 = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_3)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS_3 \
 @COND_PLATFORM_WIN32_1@	= baselib_main.o baselib_volume.o
@@ -15916,6 +15929,9 @@ monodll_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(MONODLL_ODEP)
 monodll_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(MONODLL_ODEP)
 	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
 
+monodll_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(MONODLL_ODEP)
+	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
+
 monodll_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(MONODLL_ODEP)
 	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp
 
@@ -21174,6 +21190,9 @@ monolib_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(MONOLIB_ODEP)
 
 monolib_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(MONOLIB_ODEP)
 	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
+
+monolib_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(MONOLIB_ODEP)
+	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
 
 monolib_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(MONOLIB_ODEP)
 	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp
@@ -26434,6 +26453,9 @@ basedll_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(BASEDLL_ODEP)
 basedll_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(BASEDLL_ODEP)
 	$(CXXC) -c -o $@ $(BASEDLL_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
 
+basedll_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(BASEDLL_ODEP)
+	$(CXXC) -c -o $@ $(BASEDLL_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
+
 basedll_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(BASEDLL_ODEP)
 	$(CXXC) -c -o $@ $(BASEDLL_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp
 
@@ -26907,6 +26929,9 @@ baselib_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(BASELIB_ODEP)
 
 baselib_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(BASELIB_ODEP)
 	$(CXXC) -c -o $@ $(BASELIB_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
+
+baselib_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(BASELIB_ODEP)
+	$(CXXC) -c -o $@ $(BASELIB_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
 
 baselib_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(BASELIB_ODEP)
 	$(CXXC) -c -o $@ $(BASELIB_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp

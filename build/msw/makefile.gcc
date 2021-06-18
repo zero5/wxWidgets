@@ -476,6 +476,7 @@ MONODLL_OBJECTS =  \
 	$(OBJS)\monodll_utilsexc.o \
 	$(OBJS)\monodll_fswatcher.o \
 	$(OBJS)\monodll_msw_secretstore.o \
+	$(OBJS)\monodll_dark_mode.o \
 	$(OBJS)\monodll_event.o \
 	$(OBJS)\monodll_fs_mem.o \
 	$(OBJS)\monodll_msgout.o \
@@ -629,6 +630,7 @@ MONOLIB_OBJECTS =  \
 	$(OBJS)\monolib_utilsexc.o \
 	$(OBJS)\monolib_fswatcher.o \
 	$(OBJS)\monolib_msw_secretstore.o \
+	$(OBJS)\monolib_dark_mode.o \
 	$(OBJS)\monolib_event.o \
 	$(OBJS)\monolib_fs_mem.o \
 	$(OBJS)\monolib_msgout.o \
@@ -778,6 +780,7 @@ BASEDLL_OBJECTS =  \
 	$(OBJS)\basedll_utilsexc.o \
 	$(OBJS)\basedll_fswatcher.o \
 	$(OBJS)\basedll_msw_secretstore.o \
+	$(OBJS)\basedll_dark_mode.o \
 	$(OBJS)\basedll_event.o \
 	$(OBJS)\basedll_fs_mem.o \
 	$(OBJS)\basedll_msgout.o \
@@ -911,6 +914,7 @@ BASELIB_OBJECTS =  \
 	$(OBJS)\baselib_utilsexc.o \
 	$(OBJS)\baselib_fswatcher.o \
 	$(OBJS)\baselib_msw_secretstore.o \
+	$(OBJS)\baselib_dark_mode.o \
 	$(OBJS)\baselib_event.o \
 	$(OBJS)\baselib_fs_mem.o \
 	$(OBJS)\baselib_msgout.o \
@@ -7093,6 +7097,9 @@ $(OBJS)\monodll_fswatcher.o: ../../src/msw/fswatcher.cpp
 $(OBJS)\monodll_msw_secretstore.o: ../../src/msw/secretstore.cpp
 	$(CXX) -c -o $@ $(MONODLL_CXXFLAGS) $(CPPDEPS) $<
 
+$(OBJS)\monodll_dark_mode.o: ../../src/msw/dark_mode.cpp
+	$(CXX) -c -o $@ $(MONODLL_CXXFLAGS) $(CPPDEPS) $<
+
 $(OBJS)\monodll_event.o: ../../src/common/event.cpp
 	$(CXX) -c -o $@ $(MONODLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -9645,6 +9652,9 @@ $(OBJS)\monolib_fswatcher.o: ../../src/msw/fswatcher.cpp
 	$(CXX) -c -o $@ $(MONOLIB_CXXFLAGS) $(CPPDEPS) $<
 
 $(OBJS)\monolib_msw_secretstore.o: ../../src/msw/secretstore.cpp
+	$(CXX) -c -o $@ $(MONOLIB_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJS)\monolib_dark_mode.o: ../../src/msw/dark_mode.cpp
 	$(CXX) -c -o $@ $(MONOLIB_CXXFLAGS) $(CPPDEPS) $<
 
 $(OBJS)\monolib_event.o: ../../src/common/event.cpp
@@ -12201,6 +12211,9 @@ $(OBJS)\basedll_fswatcher.o: ../../src/msw/fswatcher.cpp
 $(OBJS)\basedll_msw_secretstore.o: ../../src/msw/secretstore.cpp
 	$(CXX) -c -o $@ $(BASEDLL_CXXFLAGS) $(CPPDEPS) $<
 
+$(OBJS)\basedll_dark_mode.o: ../../src/msw/dark_mode.cpp
+	$(CXX) -c -o $@ $(BASEDLL_CXXFLAGS) $(CPPDEPS) $<
+
 $(OBJS)\basedll_event.o: ../../src/common/event.cpp
 	$(CXX) -c -o $@ $(BASEDLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -12544,6 +12557,9 @@ $(OBJS)\baselib_fswatcher.o: ../../src/msw/fswatcher.cpp
 	$(CXX) -c -o $@ $(BASELIB_CXXFLAGS) $(CPPDEPS) $<
 
 $(OBJS)\baselib_msw_secretstore.o: ../../src/msw/secretstore.cpp
+	$(CXX) -c -o $@ $(BASELIB_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJS)\baselib_dark_mode.o: ../../src/msw/dark_mode.cpp
 	$(CXX) -c -o $@ $(BASELIB_CXXFLAGS) $(CPPDEPS) $<
 
 $(OBJS)\baselib_event.o: ../../src/common/event.cpp
