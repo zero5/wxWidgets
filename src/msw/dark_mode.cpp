@@ -1,6 +1,8 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#include "wx/settings.h"
+
 #include "wx/msw/dark_mode.h"
 
 #include "wx/msw/dark_mode/dark_mode.h"
