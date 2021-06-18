@@ -605,6 +605,7 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)common_%(Filename).obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\src\common\lzmastream.cpp" />
+    <ClCompile Include="..\..\src\msw\dark_mode.cpp" />
     <ClCompile Include="..\..\src\msw\uilocale.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">$(IntDir)msw_%(Filename).obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">$(IntDir)msw_%(Filename).obj</ObjectFileName>
@@ -843,6 +844,10 @@
     <ClInclude Include="..\..\include\wx\secretstore.h" />
     <ClInclude Include="..\..\include\wx\evtloopsrc.h" />
     <ClInclude Include="..\..\include\wx\lzmastream.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\IatHook.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\dark_mode.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode\UAHMenuBar.h" />
     <ClInclude Include="..\..\include\wx\localedefs.h" />
     <ClInclude Include="..\..\include\wx\uilocale.h" />
   </ItemGroup>

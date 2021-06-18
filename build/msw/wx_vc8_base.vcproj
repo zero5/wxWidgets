@@ -1383,6 +1383,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\msw\dark_mode.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\msw\dde.cpp"
 				>
 			</File>
@@ -1746,6 +1750,14 @@
 			UniqueIdentifier="{5AFFF20E-29F9-512B-B80A-7DC45976CDAC}"
 			>
 			<File
+				RelativePath="..\..\include\wx\msw\dark_mode\IatHook.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\wx\msw\dark_mode\UAHMenuBar.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\wx\msw\apptbase.h"
 				>
 			</File>
@@ -1759,6 +1771,14 @@
 			</File>
 			<File
 				RelativePath="..\..\include\wx\msw\crashrpt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\wx\msw\dark_mode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\wx\msw\dark_mode\dark_mode.h"
 				>
 			</File>
 			<File
