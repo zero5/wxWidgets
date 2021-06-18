@@ -309,9 +309,6 @@
     <ClCompile Include="..\..\src\msw\crashrpt.cpp">
       <Filter>MSW Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\msw\dark_mode.cpp">
-      <Filter>MSW Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\msw\dde.cpp">
       <Filter>MSW Sources</Filter>
     </ClCompile>
@@ -671,18 +668,6 @@
       <Filter>MSW Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\wx\msw\crashrpt.h">
-      <Filter>MSW Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\wx\msw\dark_mode.h">
-      <Filter>MSW Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\wx\msw\dark_mode\IatHook.h">
-      <Filter>MSW Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\wx\msw\dark_mode\UAHMenuBar.h">
-      <Filter>MSW Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\wx\msw\dark_mode\dark_mode.h">
       <Filter>MSW Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\wx\msw\dde.h">

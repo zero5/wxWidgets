@@ -101,7 +101,6 @@ BASE_WIN32_SRC =
     src/msw/utils.cpp
     src/msw/utilsexc.cpp
     src/msw/fswatcher.cpp
-    src/msw/dark_mode.cpp
 
 BASE_AND_GUI_WIN32_SRC =
     src/msw/main.cpp
@@ -130,10 +129,6 @@ BASE_WIN32_HDR =
     wx/msw/wrapcdlg.h
     wx/msw/wrapwin.h
     wx/msw/fswatcher.h
-    wx/msw/dark_mode.h
-    wx/msw/dark_mode/IatHook.h
-    wx/msw/dark_mode/UAHMenuBar.h
-    wx/msw/dark_mode/dark_mode.h
 
 
 ## OS X
@@ -1955,6 +1950,7 @@ MSW_LOWLEVEL_SRC =
     src/msw/utilswin.cpp
     src/msw/uxtheme.cpp
     src/msw/window.cpp
+    src/msw/dark_mode.cpp
 
 MSW_LOWLEVEL_HDR =
     wx/msw/evtloop.h
@@ -1968,6 +1964,10 @@ MSW_LOWLEVEL_HDR =
     wx/msw/sound.h
     wx/msw/taskbar.h
     wx/msw/uxtheme.h
+    wx/msw/dark_mode.h
+    wx/msw/dark_mode/IatHook.h
+    wx/msw/dark_mode/UAHMenuBar.h
+    wx/msw/dark_mode/dark_mode.h
 
 MSW_SRC =
     src/generic/activityindicator.cpp

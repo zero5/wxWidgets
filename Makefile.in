@@ -774,10 +774,6 @@ ALL_PORTS_BASE_HEADERS =  \
 	wx/msw/wrapcdlg.h \
 	wx/msw/wrapwin.h \
 	wx/msw/fswatcher.h \
-	wx/msw/dark_mode/dark_mode.h \
-	wx/msw/dark_mode/IatHook.h \
-	wx/msw/dark_mode.h \
-	wx/msw/dark_mode/UAHMenuBar.h \
 	$(BASE_OSX_HDR) \
 	wx/fs_inet.h \
 	wx/protocol/file.h \
@@ -920,7 +916,6 @@ ALL_BASE_SOURCES =  \
 	src/msw/utilsexc.cpp \
 	src/msw/fswatcher.cpp \
 	src/msw/secretstore.cpp \
-	src/msw/dark_mode.cpp \
 	$(BASE_OSX_SRC) \
 	src/common/event.cpp \
 	src/common/fs_mem.cpp \
@@ -2679,11 +2674,7 @@ COND_PLATFORM_WIN32_1_BASE_PLATFORM_HDR =  \
 	wx/msw/wrapcctl.h \
 	wx/msw/wrapcdlg.h \
 	wx/msw/wrapwin.h \
-	wx/msw/fswatcher.h \
-	wx/msw/dark_mode/dark_mode.h \
-	wx/msw/dark_mode/IatHook.h \
-	wx/msw/dark_mode.h \
-	wx/msw/dark_mode/UAHMenuBar.h
+	wx/msw/fswatcher.h
 @COND_PLATFORM_WIN32_1@BASE_PLATFORM_HDR = $(COND_PLATFORM_WIN32_1_BASE_PLATFORM_HDR)
 COND_TOOLKIT_DFB_LOWLEVEL_HDR =  \
 	wx/generic/caret.h \
@@ -2858,7 +2849,11 @@ COND_TOOLKIT_MSW_LOWLEVEL_HDR =  \
 	wx/msw/helpchm.h \
 	wx/msw/sound.h \
 	wx/msw/joystick.h \
-	wx/msw/evtloop.h
+	wx/msw/evtloop.h \
+	wx/msw/dark_mode.h \
+	wx/msw/dark_mode/UAHMenuBar.h \
+	wx/msw/dark_mode/dark_mode.h \
+	wx/msw/dark_mode/IatHook.h
 @COND_TOOLKIT_MSW@LOWLEVEL_HDR = $(COND_TOOLKIT_MSW_LOWLEVEL_HDR)
 @COND_TOOLKIT_OSX_COCOA@LOWLEVEL_HDR = 
 @COND_TOOLKIT_OSX_IPHONE@LOWLEVEL_HDR = 
@@ -4280,8 +4275,7 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS =  \
 	monodll_msw_utils.o \
 	monodll_utilsexc.o \
 	monodll_fswatcher.o \
-	monodll_msw_secretstore.o \
-	monodll_dark_mode.o
+	monodll_msw_secretstore.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS \
 @COND_PLATFORM_WIN32_1@	= monodll_msw_main.o monodll_volume.o
@@ -5187,7 +5181,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS =  \
 	monodll_notifmsgrt.o \
 	monodll_uuid.o \
 	monodll_msw_evtloop.o \
-	monodll_access.o
+	monodll_access.o \
+	monodll_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS)
@@ -6091,7 +6086,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_1 =  \
 	monodll_notifmsgrt.o \
 	monodll_uuid.o \
 	monodll_msw_evtloop.o \
-	monodll_access.o
+	monodll_access.o \
+	monodll_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS_1 = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_1)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS_1 = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS)
@@ -6262,8 +6258,7 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_1 =  \
 	monolib_msw_utils.o \
 	monolib_utilsexc.o \
 	monolib_fswatcher.o \
-	monolib_msw_secretstore.o \
-	monolib_dark_mode.o
+	monolib_msw_secretstore.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS_1 = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_1)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS_1 \
 @COND_PLATFORM_WIN32_1@	= monolib_msw_main.o monolib_volume.o
@@ -7169,7 +7164,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_2 =  \
 	monolib_notifmsgrt.o \
 	monolib_uuid.o \
 	monolib_msw_evtloop.o \
-	monolib_access.o
+	monolib_access.o \
+	monolib_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS_2 = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_2)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS_2 = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS_17)
@@ -8073,7 +8069,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_3 =  \
 	monolib_notifmsgrt.o \
 	monolib_uuid.o \
 	monolib_msw_evtloop.o \
-	monolib_access.o
+	monolib_access.o \
+	monolib_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS_3 = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_3)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS_3 = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS_17)
@@ -8296,8 +8293,7 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_2 =  \
 	basedll_msw_utils.o \
 	basedll_utilsexc.o \
 	basedll_fswatcher.o \
-	basedll_msw_secretstore.o \
-	basedll_dark_mode.o
+	basedll_msw_secretstore.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS_2 = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_2)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS_2 \
 @COND_PLATFORM_WIN32_1@	= basedll_main.o basedll_volume.o
@@ -8380,8 +8376,7 @@ COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_3 =  \
 	baselib_msw_utils.o \
 	baselib_utilsexc.o \
 	baselib_fswatcher.o \
-	baselib_msw_secretstore.o \
-	baselib_dark_mode.o
+	baselib_msw_secretstore.o
 @COND_PLATFORM_WIN32_1@__BASE_PLATFORM_SRC_OBJECTS_3 = $(COND_PLATFORM_WIN32_1___BASE_PLATFORM_SRC_OBJECTS_3)
 @COND_PLATFORM_WIN32_1@__BASE_AND_GUI_PLATFORM_SRC_OBJECTS_3 \
 @COND_PLATFORM_WIN32_1@	= baselib_main.o baselib_volume.o
@@ -9298,7 +9293,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_4 =  \
 	coredll_notifmsgrt.o \
 	coredll_uuid.o \
 	coredll_msw_evtloop.o \
-	coredll_access.o
+	coredll_access.o \
+	coredll_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS_4 = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_4)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS_4 = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS_1_1)
@@ -10202,7 +10198,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_5 =  \
 	coredll_notifmsgrt.o \
 	coredll_uuid.o \
 	coredll_msw_evtloop.o \
-	coredll_access.o
+	coredll_access.o \
+	coredll_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS_5 = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_5)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS_5 = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS_1_1)
@@ -11015,7 +11012,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_6 =  \
 	corelib_notifmsgrt.o \
 	corelib_uuid.o \
 	corelib_msw_evtloop.o \
-	corelib_access.o
+	corelib_access.o \
+	corelib_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS_6 = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_6)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS_6 = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS_1_4)
@@ -11919,7 +11917,8 @@ COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_7 =  \
 	corelib_notifmsgrt.o \
 	corelib_uuid.o \
 	corelib_msw_evtloop.o \
-	corelib_access.o
+	corelib_access.o \
+	corelib_dark_mode.o
 @COND_TOOLKIT_MSW@__LOWLEVEL_SRC_OBJECTS_7 = $(COND_TOOLKIT_MSW___LOWLEVEL_SRC_OBJECTS_7)
 @COND_TOOLKIT_OSX_COCOA@__LOWLEVEL_SRC_OBJECTS_7 = \
 @COND_TOOLKIT_OSX_COCOA@	$(__OSX_LOWLEVEL_SRC_OBJECTS_1_4)
@@ -15929,9 +15928,6 @@ monodll_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(MONODLL_ODEP)
 monodll_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(MONODLL_ODEP)
 	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
 
-monodll_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(MONODLL_ODEP)
-	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
-
 monodll_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(MONODLL_ODEP)
 	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp
 
@@ -18827,6 +18823,9 @@ monodll_sound_sdl.o: $(srcdir)/src/unix/sound_sdl.cpp $(MONODLL_ODEP)
 @COND_TOOLKIT_MSW_USE_GUI_1@monodll_access.o: $(srcdir)/src/msw/ole/access.cpp $(MONODLL_ODEP)
 @COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/msw/ole/access.cpp
 
+@COND_TOOLKIT_MSW_USE_GUI_1@monodll_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(MONODLL_ODEP)
+@COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
+
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@monodll_artmac.o: $(srcdir)/src/osx/artmac.cpp $(MONODLL_ODEP)
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/osx/artmac.cpp
 
@@ -21190,9 +21189,6 @@ monolib_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(MONOLIB_ODEP)
 
 monolib_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(MONOLIB_ODEP)
 	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
-
-monolib_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(MONOLIB_ODEP)
-	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
 
 monolib_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(MONOLIB_ODEP)
 	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp
@@ -24089,6 +24085,9 @@ monolib_sound_sdl.o: $(srcdir)/src/unix/sound_sdl.cpp $(MONOLIB_ODEP)
 @COND_TOOLKIT_MSW_USE_GUI_1@monolib_access.o: $(srcdir)/src/msw/ole/access.cpp $(MONOLIB_ODEP)
 @COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/msw/ole/access.cpp
 
+@COND_TOOLKIT_MSW_USE_GUI_1@monolib_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(MONOLIB_ODEP)
+@COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
+
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@monolib_artmac.o: $(srcdir)/src/osx/artmac.cpp $(MONOLIB_ODEP)
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/osx/artmac.cpp
 
@@ -26453,9 +26452,6 @@ basedll_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(BASEDLL_ODEP)
 basedll_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(BASEDLL_ODEP)
 	$(CXXC) -c -o $@ $(BASEDLL_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
 
-basedll_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(BASEDLL_ODEP)
-	$(CXXC) -c -o $@ $(BASEDLL_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
-
 basedll_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(BASEDLL_ODEP)
 	$(CXXC) -c -o $@ $(BASEDLL_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp
 
@@ -26929,9 +26925,6 @@ baselib_fswatcher.o: $(srcdir)/src/msw/fswatcher.cpp $(BASELIB_ODEP)
 
 baselib_msw_secretstore.o: $(srcdir)/src/msw/secretstore.cpp $(BASELIB_ODEP)
 	$(CXXC) -c -o $@ $(BASELIB_CXXFLAGS) $(srcdir)/src/msw/secretstore.cpp
-
-baselib_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(BASELIB_ODEP)
-	$(CXXC) -c -o $@ $(BASELIB_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
 
 baselib_core_mimetype.o: $(srcdir)/src/osx/core/mimetype.cpp $(BASELIB_ODEP)
 	$(CXXC) -c -o $@ $(BASELIB_CXXFLAGS) $(srcdir)/src/osx/core/mimetype.cpp
@@ -29434,6 +29427,9 @@ coredll_sound_sdl.o: $(srcdir)/src/unix/sound_sdl.cpp $(COREDLL_ODEP)
 
 @COND_TOOLKIT_MSW_USE_GUI_1@coredll_access.o: $(srcdir)/src/msw/ole/access.cpp $(COREDLL_ODEP)
 @COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(COREDLL_CXXFLAGS) $(srcdir)/src/msw/ole/access.cpp
+
+@COND_TOOLKIT_MSW_USE_GUI_1@coredll_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(COREDLL_ODEP)
+@COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(COREDLL_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
 
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@coredll_artmac.o: $(srcdir)/src/osx/artmac.cpp $(COREDLL_ODEP)
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@	$(CXXC) -c -o $@ $(COREDLL_CXXFLAGS) $(srcdir)/src/osx/artmac.cpp
@@ -33682,6 +33678,9 @@ corelib_sound_sdl.o: $(srcdir)/src/unix/sound_sdl.cpp $(CORELIB_ODEP)
 
 @COND_TOOLKIT_MSW_USE_GUI_1@corelib_access.o: $(srcdir)/src/msw/ole/access.cpp $(CORELIB_ODEP)
 @COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(CORELIB_CXXFLAGS) $(srcdir)/src/msw/ole/access.cpp
+
+@COND_TOOLKIT_MSW_USE_GUI_1@corelib_dark_mode.o: $(srcdir)/src/msw/dark_mode.cpp $(CORELIB_ODEP)
+@COND_TOOLKIT_MSW_USE_GUI_1@	$(CXXC) -c -o $@ $(CORELIB_CXXFLAGS) $(srcdir)/src/msw/dark_mode.cpp
 
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@corelib_artmac.o: $(srcdir)/src/osx/artmac.cpp $(CORELIB_ODEP)
 @COND_PLATFORM_MACOSX_1_TOOLKIT_OSX_COCOA_USE_GUI_1@	$(CXXC) -c -o $@ $(CORELIB_CXXFLAGS) $(srcdir)/src/osx/artmac.cpp
