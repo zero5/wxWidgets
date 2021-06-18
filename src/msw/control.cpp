@@ -18,6 +18,7 @@
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
+#include "wx/msw/dark_mode.h"
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -395,7 +396,7 @@ WXHBRUSH wxControl::MSWControlColor(WXHDC pDC, WXHWND hWnd)
 WXHBRUSH wxControl::MSWControlColorDisabled(WXHDC pDC)
 {
     return DoMSWControlColor(pDC,
-                             wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE),
+                             wxRGBToColour(NppDarkMode::GetSofterBackgroundColor()),//wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE),
                              GetHWND());
 }
 

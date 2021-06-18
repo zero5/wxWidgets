@@ -602,6 +602,7 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)msw_%(Filename).obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)msw_%(Filename).obj</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\src\msw\dark_mode.cpp" />
     <ClCompile Include="..\..\src\msw\graphicsd2d.cpp" />
     <ClCompile Include="..\..\src\msw\ole\access.cpp" />
     <ClCompile Include="..\..\src\msw\ole\activex.cpp" />
@@ -1088,6 +1089,7 @@
     </CustomBuild>
     <ClInclude Include="..\..\include\wx\msw\accel.h" />
     <ClInclude Include="..\..\include\wx\msw\appprogress.h" />
+    <ClInclude Include="..\..\include\wx\msw\dark_mode.h" />
     <ClInclude Include="..\..\include\wx\msw\ole\access.h" />
     <ClInclude Include="..\..\include\wx\msw\ole\activex.h" />
     <ClInclude Include="..\..\include\wx\msw\anybutton.h" />

@@ -648,7 +648,7 @@ bool wxApp::Initialize(int& argc_, wxChar **argv_)
     // ensure that base cleanup is done if we return too early
     wxCallBaseCleanup callBaseCleanup(this);
 
-    NppDarkMode::InitDarkMode();
+//    NppDarkMode::InitDarkMode();
 
     InitCommonControls();
 

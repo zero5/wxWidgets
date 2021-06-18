@@ -17,6 +17,7 @@
 // ----------------------------------------------------------------------------
 
 #include "wx/wxprec.h"
+#include "wx/msw/dark_mode.h"
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -333,7 +334,7 @@ void wxComboCtrl::OnPaintEvent( wxPaintEvent& WXUNUSED(event) )
     //        In the theme-less rendering code below, this fixes incorrect
     //        background on read-only comboboxes (they are gray, but should be
     //        white).
-    wxColour bgCol = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+    wxColour bgCol = wxRGBToColour(NppDarkMode::GetBackgroundColor());//wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
 
 #if wxUSE_UXTHEME
     const bool isEnabled = IsThisEnabled();

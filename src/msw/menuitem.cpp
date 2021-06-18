@@ -1297,7 +1297,7 @@ void wxMenuItem::GetColourToUse(wxODStatus stat, wxColour& colText, wxColour& co
 
         if ( stat & wxODSelected )
         {
-            wxRGBToColour(colBack, ::GetThemeSysColor(hTheme, COLOR_HIGHLIGHT));
+            colBack = NppDarkMode::GetSofterBackgroundColor();//::GetThemeSysColor(hTheme, COLOR_HIGHLIGHT));
         }
         else
         {

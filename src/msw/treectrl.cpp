@@ -46,6 +46,7 @@
 #include "wx/itemattr.h"
 #include "wx/msw/dragimag.h"
 #include "wx/msw/uxtheme.h"
+#include "wx/msw/dark_mode.h"
 
 // macros to hide the cast ugliness
 // --------------------------------
@@ -3643,6 +3644,15 @@ bool wxTreeCtrl::MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result)
                                     colText = attr->GetTextColour();
                                     lptvcd->clrText = wxColourToRGB(colText);
                                 }
+                            }
+
+                            // foreground colour when we have focus
+                            if ( ( (nmcd.uItemState & CDIS_SELECTED) &&
+                                    FindFocus() != this ) &&
+                                 !(tvItemState & TVIS_DROPHILITED) )
+                            {
+                                // Set better background for the selected but unfocused items
+                                lptvcd->clrTextBk = NppDarkMode::GetSofterBackgroundColor();
                             }
 
                             if ( attr->HasFont() )
