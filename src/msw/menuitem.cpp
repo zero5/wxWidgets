@@ -473,8 +473,8 @@ void wxMenuItem::Init()
     // setting default colors switched ownerdraw on: switch it off again
     SetOwnerDrawn(false);
 #else
-    SetTextColour(NppDarkMode::GetTextColor());
-    SetBackgroundColour(NppDarkMode::GetBackgroundColor());
+    SetTextColour(wxRGBToColour(NppDarkMode::GetTextColor()));
+    SetBackgroundColour(wxRGBToColour(NppDarkMode::GetBackgroundColor()));
     SetOwnerDrawn(true);
 #endif
     //  switch ownerdraw back on if using a non default margin
@@ -1142,8 +1142,8 @@ void wxMenuItem::UpdateDefColors()
     if (IsOwnerDrawn()) {
         struct update_colors {
             static void run(wxMenuItem* item) {
-                item->SetTextColour(NppDarkMode::GetTextColor());
-                item->SetBackgroundColour(NppDarkMode::GetBackgroundColor());
+                item->SetTextColour(wxRGBToColour(NppDarkMode::GetTextColor()));
+                item->SetBackgroundColour(wxRGBToColour(NppDarkMode::GetBackgroundColor()));
 
                 if (item->IsSubMenu())
                     for (wxMenuItem* sub_item : item->GetSubMenu()->GetMenuItems())
@@ -1297,7 +1297,7 @@ void wxMenuItem::GetColourToUse(wxODStatus stat, wxColour& colText, wxColour& co
 
         if ( stat & wxODSelected )
         {
-            colBack = NppDarkMode::GetSofterBackgroundColor();//::GetThemeSysColor(hTheme, COLOR_HIGHLIGHT));
+            colBack = wxRGBToColour(NppDarkMode::GetSofterBackgroundColor());//::GetThemeSysColor(hTheme, COLOR_HIGHLIGHT));
         }
         else
         {
