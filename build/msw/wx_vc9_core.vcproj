@@ -2058,6 +2058,10 @@
 				RelativePath="..\..\src\msw\window.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\src\msw\dark_mode.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generic Sources"
@@ -3047,6 +3051,22 @@
 			</File>
 			<File
 				RelativePath="..\..\include\wx\msw\window.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\wx\msw\dark_mode\UAHMenuBar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\wx\msw\dark_mode\dark_mode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\wx\msw\dark_mode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\wx\msw\dark_mode\IatHook.h"
 				>
 			</File>
 		</Filter>

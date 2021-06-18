@@ -1966,6 +1966,7 @@ set(MSW_LOWLEVEL_SRC
     src/msw/richtooltip.cpp
     src/msw/evtloop.cpp
     src/msw/ole/access.cpp
+    src/msw/dark_mode.cpp
     src/msw/bmpbndl.cpp
 )
 
@@ -1981,6 +1982,10 @@ set(MSW_LOWLEVEL_HDR
     wx/msw/helpwin.h
     wx/msw/taskbar.h
     wx/msw/evtloop.h
+    wx/msw/dark_mode/UAHMenuBar.h
+    wx/msw/dark_mode.h
+    wx/msw/dark_mode/dark_mode.h
+    wx/msw/dark_mode/IatHook.h
 )
 
 set(MSW_DESKTOP_LOWLEVEL_SRC
