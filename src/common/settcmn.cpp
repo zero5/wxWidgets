@@ -27,7 +27,9 @@
     #include "wx/utils.h"
 #endif //WX_PRECOMP
 
+#ifdef __WXMSW__
 #include "wx/msw/dark_mode.h"
+#endif
 
 // ----------------------------------------------------------------------------
 // static data
