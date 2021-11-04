@@ -1,6 +1,8 @@
 #pragma once
 #include "IatHook.h"
 
+#include <Windows.h>
+
 #include <Uxtheme.h>
 #include <Vssym32.h>
 
@@ -93,6 +95,7 @@ fnSetPreferredAppMode _SetPreferredAppMode = nullptr;
 
 bool g_darkModeSupported = false;
 bool g_darkModeEnabled = false;
+bool g_SystemMenuEnabled = true;
 DWORD g_buildNumber = 0;
 
 bool AllowDarkModeForWindow(HWND hWnd, bool allow)
@@ -152,7 +155,7 @@ void AllowDarkModeForApp(bool allow)
 	if (_AllowDarkModeForApp)
 		_AllowDarkModeForApp(allow);
 	else if (_SetPreferredAppMode)
-		_SetPreferredAppMode(allow ? AllowDark : Default);
+		_SetPreferredAppMode(allow ? ForceDark : ForceLight);
 }
 
 // limit dark scroll bar to specific windows and their children
@@ -193,14 +196,14 @@ void FixDarkScrollBar()
 			if (VirtualProtect(addr, sizeof(IMAGE_THUNK_DATA), PAGE_READWRITE, &oldProtect))
 			{
 				auto MyOpenThemeData = [](HWND hWnd, LPCWSTR classList) -> HTHEME {
-					if (wcscmp(classList, L"ScrollBar") == 0)
-					{
-					//	if (IsWindowOrParentUsingDarkScrollBar(hWnd))
-                        {
-							hWnd = nullptr;
-							classList = L"Explorer::ScrollBar";
-						}
-					}
+                    if (wcscmp(classList, L"ScrollBar") == 0) {
+                        hWnd = nullptr;
+                        classList = L"Explorer::ScrollBar";
+                    }
+                    if (wcscmp(classList, L"MENU") == 0) {
+                        hWnd = nullptr;
+                        classList = L"Explorer::Menu";
+                    }
 					return _OpenNcThemeData(hWnd, classList);
 				};
 
@@ -218,7 +221,8 @@ constexpr bool CheckBuildNumber(DWORD buildNumber)
 		buildNumber == 18363 || // 1909
 		buildNumber == 19041 || // 2004
 		buildNumber == 19042 || // 20H2
-		buildNumber == 19043);  // 21H1
+		buildNumber == 19043 || // 21H1
+		buildNumber >= 22000);  // Windows 11 
 }
 
 void InitDarkMode()
@@ -241,12 +245,12 @@ void InitDarkMode()
 				_AllowDarkModeForWindow = reinterpret_cast<fnAllowDarkModeForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
 
 				auto ord135 = GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135));
-				if (g_buildNumber > 18362)
+				if (g_buildNumber < 18362)
 					_AllowDarkModeForApp = reinterpret_cast<fnAllowDarkModeForApp>(ord135);
 				else
 					_SetPreferredAppMode = reinterpret_cast<fnSetPreferredAppMode>(ord135);
 
-				//_FlushMenuThemes = reinterpret_cast<fnFlushMenuThemes>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(136)));
+				_FlushMenuThemes = reinterpret_cast<fnFlushMenuThemes>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(136)));
 				_IsDarkModeAllowedForWindow = reinterpret_cast<fnIsDarkModeAllowedForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(137)));
 
 				_SetWindowCompositionAttribute = reinterpret_cast<fnSetWindowCompositionAttribute>(GetProcAddress(GetModuleHandleW(L"user32.dll"), "SetWindowCompositionAttribute"));
@@ -256,17 +260,10 @@ void InitDarkMode()
 					_ShouldAppsUseDarkMode &&
 					_AllowDarkModeForWindow &&
 					(_AllowDarkModeForApp || _SetPreferredAppMode) &&
-					//_FlushMenuThemes &&
+					_FlushMenuThemes &&
 					_IsDarkModeAllowedForWindow)
 				{
 					g_darkModeSupported = true;
-
-					AllowDarkModeForApp(true);
-					_RefreshImmersiveColorPolicyState();
-
-					g_darkModeEnabled = _ShouldAppsUseDarkMode() && !IsHighContrast();
-
-					FixDarkScrollBar();
 				}
 			}
 		}

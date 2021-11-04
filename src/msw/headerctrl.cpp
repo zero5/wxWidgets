@@ -36,6 +36,9 @@
 #include "wx/msw/private.h"
 #include "wx/msw/private/customdraw.h"
 #include "wx/msw/private/winstyle.h"
+#ifdef _MSW_DARK_MODE
+#include "wx/msw/dark_mode.h"
+#endif // _MSW_DARK_MODE
 
 #ifndef HDM_SETBITMAPMARGIN
     #define HDM_SETBITMAPMARGIN 0x1234
@@ -1076,6 +1079,14 @@ bool wxHeaderCtrl::Create(wxWindow *parent,
 // ----------------------------------------------------------------------------
 // wxHeaderCtrl events
 // ----------------------------------------------------------------------------
+
+#ifdef _MSW_DARK_MODE
+void wxHeaderCtrl::RefreshDarkMode()
+{
+    if (m_nativeControl != NULL) // check whether initialisation has been done
+        NppDarkMode::SetDarkListViewHeader(m_nativeControl->GetHWND());
+}
+#endif // _MSW_DARK_MODE
 
 void wxHeaderCtrl::OnSize(wxSizeEvent& WXUNUSED(event))
 {
