@@ -298,6 +298,10 @@ public:
     // This method is only available in the generic versions.
     wxHeaderCtrl* GenericGetHeader() const;
 
+#ifdef _MSW_DARK_MODE
+    void RefreshHeaderDarkMode(wxFont* font = nullptr);
+#endif
+
 protected:
     void EnsureVisibleRowCol( int row, int column );
 

@@ -47,7 +47,9 @@
 #include "wx/msw/private.h"
 #include "wx/msw/dc.h"
 #include "wx/msw/uxtheme.h"
+#ifdef _MSW_DARK_MODE
 #include "wx/msw/dark_mode.h"
+#endif //_MSW_DARK_MODE
 
 // ---------------------------------------------------------------------------
 // macro
@@ -466,17 +468,24 @@ void wxMenuItem::Init()
     // If we set the colors here and they are changed by the user during
     // the execution, then the colors are not updated until the application
     // is restarted and our menus look bad
-#if 0
-    SetTextColour(wxNullColour);
-    SetBackgroundColour(wxNullColour);
+#ifdef _MSW_DARK_MODE
+    if (NppDarkMode::IsSystemMenuEnabled())
+    {
+#endif // _MSW_DARK_MODE
+        SetTextColour(wxNullColour);
+        SetBackgroundColour(wxNullColour);
 
-    // setting default colors switched ownerdraw on: switch it off again
-    SetOwnerDrawn(false);
-#else
-    SetTextColour(wxRGBToColour(NppDarkMode::GetTextColor()));
-    SetBackgroundColour(wxRGBToColour(NppDarkMode::GetBackgroundColor()));
-    SetOwnerDrawn(true);
-#endif
+        // setting default colors switched ownerdraw on: switch it off again
+        SetOwnerDrawn(false);
+#ifdef _MSW_DARK_MODE
+    }
+    else
+    {
+        SetTextColour(wxRGBToColour(NppDarkMode::GetTextColor()));
+        SetBackgroundColour(wxRGBToColour(NppDarkMode::GetBackgroundColor()));
+        SetOwnerDrawn(true);
+    }
+#endif // _MSW_DARK_MODE
     //  switch ownerdraw back on if using a non default margin
     if ( !IsSeparator() )
         SetMarginWidth(GetMarginWidth());
@@ -995,7 +1004,15 @@ bool wxMenuItem::OnDrawItem(wxDC& dc, const wxRect& rc,
 
             AutoHBRUSH hbr(colBack.GetPixel());
             SelectInHDC selBrush(hdc, hbr);
-            ::FillRect(hdc, &rcSelection, hbr);
+#ifdef _MSW_DARK_MODE
+            RECT rcFill = rcSelection;
+            rcFill.left = 0;
+            rcFill.right += 1;
+            rcFill.bottom += 1;
+            ::FillRect(hdc, &rcFill, hbr);
+#else
+            ::FillRect(hdc, rcSelection, hbr);
+#endif _MSW_DARK_MODE
         }
 
 
@@ -1137,6 +1154,7 @@ bool wxMenuItem::OnDrawItem(wxDC& dc, const wxRect& rc,
 
 }
 
+#ifdef _MSW_DARK_MODE
 void wxMenuItem::UpdateDefColors()
 {
     if (IsOwnerDrawn()) {
@@ -1154,6 +1172,7 @@ void wxMenuItem::UpdateDefColors()
         update_colors::run(this);
     }
 }
+#endif // _MSW_DARK_MODE
 
 namespace
 {
@@ -1202,7 +1221,11 @@ void wxMenuItem::DrawStdCheckMark(WXHDC hdc_, const RECT* rc, wxODStatus stat)
     HDC hdc = (HDC)hdc_;
 
 #if wxUSE_UXTHEME
+#ifdef _MSW_DARK_MODE
+    if ( !MenuDrawData::IsUxThemeActive() )
+#else
     if ( MenuDrawData::IsUxThemeActive() )
+#endif // _MSW_DARK_MODE
     {
         wxUxThemeHandle hTheme(GetMenu()->GetWindow(), L"MENU");
 
@@ -1259,7 +1282,11 @@ void wxMenuItem::DrawStdCheckMark(WXHDC hdc_, const RECT* rc, wxODStatus stat)
         }
 
         // then draw a check mark
+#ifdef _MSW_DARK_MODE
+        int color = NppDarkMode::IsEnabled() ? COLOR_HIGHLIGHTTEXT : COLOR_MENUTEXT;
+#else
         int color = COLOR_MENUTEXT;
+#endif // _MSW_DARK_MODE
         if ( stat & wxODDisabled )
             color = COLOR_BTNSHADOW;
         else if ( stat & wxODSelected )

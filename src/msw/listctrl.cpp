@@ -44,6 +44,9 @@
 #include "wx/msw/private.h"
 #include "wx/msw/private/customdraw.h"
 #include "wx/msw/private/keyboard.h"
+#ifdef _MSW_DARK_MODE
+#include <wx/msw/dark_mode.h>
+#endif // _MSW_DARK_MODE
 
 // Currently gcc doesn't define NMLVFINDITEM, and DMC only defines
 // it by its old name NM_FINDTIEM.
@@ -307,15 +310,25 @@ bool wxListCtrl::Create(wxWindow *parent,
     if ( !MSWCreateControl(WC_LISTVIEW, wxEmptyString, pos, size) )
         return false;
 
+#ifdef _MSW_DARK_MODE
+    NppDarkMode::SetDarkListView(GetHwnd());
+    wxItemAttr attr;
+    attr.SetTextColour(NppDarkMode::GetTextColor());
+    SetHeaderAttr(attr);
+    SetTextColour(NppDarkMode::GetTextColor());
+#else
     EnableSystemThemeByDefault();
+#endif //_MSW_DARK_MODE
 
     // explicitly say that we want to use Unicode because otherwise we get ANSI
     // versions of _some_ messages (notably LVN_GETDISPINFOA)
     wxSetCCUnicodeFormat(GetHwnd());
 
+#ifndef _MSW_DARK_MODE
     // We must set the default text colour to the system/theme color, otherwise
     // GetTextColour will always return black
     SetTextColour(GetDefaultAttributes().colFg);
+#endif //_MSW_DARK_MODE
 
     if ( InReportView() )
         MSWSetExListStyles();

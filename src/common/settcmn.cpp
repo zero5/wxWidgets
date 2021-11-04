@@ -92,7 +92,7 @@ bool wxSystemAppearance::IsDark() const
 bool wxSystemAppearance::IsUsingDarkBackground() const
 {
 #ifdef _MSW_DARK_MODE
-    return NppDarkMode::IsDarkMode();
+    return NppDarkMode::IsEnabled();
 #else
     const wxColour bg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
     const wxColour fg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);

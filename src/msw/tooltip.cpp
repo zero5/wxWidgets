@@ -37,6 +37,9 @@
 #include "wx/tokenzr.h"
 #include "wx/vector.h"
 #include "wx/msw/private.h"
+#ifdef _MSW_DARK_MODE
+#include "wx/msw/dark_mode.h"
+#endif // _MSW_DARK_MODE
 
 #ifndef TTTOOLINFO_V1_SIZE
     #define TTTOOLINFO_V1_SIZE 0x28
@@ -317,6 +320,9 @@ WXHWND wxToolTip::GetToolTipCtrl()
        if ( ms_hwndTT )
        {
            HWND hwnd = (HWND)ms_hwndTT;
+#ifdef _MSW_DARK_MODE
+           NppDarkMode::SetDarkExplorerTheme(hwnd);
+#endif // _MSW_DARK_MODE
            SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0,
                         SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 

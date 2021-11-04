@@ -105,7 +105,9 @@ public:
     virtual bool OnMeasureItem(size_t *pwidth, size_t *pheight) wxOVERRIDE;
     virtual bool OnDrawItem(wxDC& dc, const wxRect& rc, wxODAction act, wxODStatus stat) wxOVERRIDE;
 
+#ifdef _MSW_DARK_MODE
     void UpdateDefColors();
+#endif // _MSW_DARK_MODE
 
 protected:
     virtual void GetFontToUse(wxFont& font) const wxOVERRIDE;

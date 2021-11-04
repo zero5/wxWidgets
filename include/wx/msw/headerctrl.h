@@ -48,6 +48,10 @@ public:
     // Window style handling.
     virtual void SetWindowStyleFlag(long style) wxOVERRIDE;
 
+#ifdef _MSW_DARK_MODE
+    void RefreshDarkMode();
+#endif //_MSW_DARK_MODE
+
 protected:
     // Override wxWindow methods which must be implemented by a new control.
     virtual wxSize DoGetBestSize() const wxOVERRIDE;

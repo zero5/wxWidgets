@@ -33,6 +33,9 @@
 #include "wx/spinbutt.h"
 
 #include "wx/msw/private.h"
+#ifdef _MSW_DARK_MODE
+#include "wx/msw/dark_mode.h"
+#endif // _MSW_DARK_MODE
 
 #ifndef UDM_SETRANGE32
     #define UDM_SETRANGE32 (WM_USER+111)
@@ -125,6 +128,10 @@ bool wxSpinButton::Create(wxWindow *parent,
 
         return false;
     }
+#ifdef _MSW_DARK_MODE
+    else
+        NppDarkMode::AutoSubclassAndThemeChildControls(GetHwndOf(parent));
+#endif // _MSW_DARK_MODE
 
     if ( parent )
     {

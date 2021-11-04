@@ -47,7 +47,10 @@
 #include "wx/msw/missing.h"
 
 #include "wx/display.h"
+
+#ifdef _MSW_DARK_MODE
 #include "wx/msw/dark_mode.h"
+#endif // _MSW_DARK_MODE
 
 // NB: wxDlgProc must be defined here and not in dialog.cpp because the latter
 //     is not included by wxUniv build which does need wxDlgProc
@@ -251,11 +254,32 @@ WXLRESULT wxTopLevelWindowMSW::MSWWindowProc(WXUINT message, WXWPARAM wParam, WX
     WXLRESULT rc = 0;
     bool processed = false;
 
-    if (NppDarkMode::UAHWndProc(this->GetHWND(), message, wParam, lParam, &rc))
+#ifdef _MSW_DARK_MODE
+    HWND hwnd = this->GetHWND();
+    if (NppDarkMode::IsEnabled() && NppDarkMode::UAHWndProc(hwnd, message, wParam, lParam, &rc))
         return rc;
+#endif // _MSW_DARK_MODE
 
     switch ( message )
     {
+#ifdef _MSW_DARK_MODE
+        case WM_NCACTIVATE:
+        {
+            // Note: lParam is -1 to prevent endless loops of calls
+            ::SendMessage(hwnd, WM_NCACTIVATE, wParam, -1);
+            rc = ::DefWindowProc(hwnd, message, wParam, lParam);
+            if (NppDarkMode::IsEnabled())
+                NppDarkMode::DrawUAHMenuNCBottomLine(hwnd);
+            return rc;
+        }
+        case WM_NCPAINT:
+        {
+            rc = ::DefWindowProc(hwnd, message, wParam, lParam);
+            if (NppDarkMode::IsEnabled())
+                NppDarkMode::DrawUAHMenuNCBottomLine(hwnd);
+            return rc;
+        }
+#endif // _MSW_DARK_MODE
         case WM_SYSCOMMAND:
             {
                 // From MSDN:

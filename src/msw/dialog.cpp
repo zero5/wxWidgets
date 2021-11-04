@@ -41,6 +41,9 @@
 #include "wx/msw/private.h"
 #include "wx/evtloop.h"
 #include "wx/scopedptr.h"
+#ifdef _MSW_DARK_MODE
+#include "wx/msw/dark_mode.h"
+#endif //_MSW_DARK_MODE
 
 // ----------------------------------------------------------------------------
 // wxWin macros
@@ -154,6 +157,12 @@ bool wxDialog::Show(bool show)
         // otherwise we could have some flicker
         InitDialog();
     }
+
+#ifdef _MSW_DARK_MODE
+    if(m_hGripper)
+        NppDarkMode::SetDarkExplorerTheme((HWND)m_hGripper);
+    NppDarkMode::SetDarkTitleBar(this->GetHWND());
+#endif //_MSW_DARK_MODE
 
     wxDialogBase::Show(show);
 

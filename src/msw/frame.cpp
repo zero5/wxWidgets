@@ -44,7 +44,9 @@
 #include "wx/msw/private.h"
 
 #include "wx/generic/statusbr.h"
+#ifdef _MSW_DARK_MODE
 #include "wx/msw/dark_mode.h"
+#endif // _MSW_DARK_MODE
 
 #ifdef __WXUNIVERSAL__
     #include "wx/univ/theme.h"
@@ -125,6 +127,10 @@ bool wxFrame::Create(wxWindow *parent,
 {
     if ( !wxTopLevelWindow::Create(parent, id, title, pos, size, style, name) )
         return false;
+
+#ifdef _MSW_DARK_MODE
+    NppDarkMode::SetDarkTitleBar(this->GetHWND());
+#endif // _MSW_DARK_MODE
 
     SetOwnBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE));
 
@@ -902,19 +908,6 @@ WXLRESULT wxFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPara
             }
             break;
 
-        case WM_SETTINGCHANGE:
-        {
-            if (wxMenuBar* mbar = GetMenuBar())
-            {
-                for (size_t id = 0; id < mbar->GetMenuCount(); id ++)
-                {
-                    wxMenu* menu = mbar->GetMenu(id);
-                    for (wxMenuItem* item : menu->GetMenuItems())
-                        item->UpdateDefColors();
-                }
-            }
-            break;
-        }
     }
 #if wxUSE_TASKBARBUTTON
     if ( message == wxMsgTaskbarButtonCreated )

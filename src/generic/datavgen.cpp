@@ -59,6 +59,10 @@
 #include "wx/private/markupparser.h"
 #endif // wxUSE_ACCESSIBILITY
 
+#ifdef _MSW_DARK_MODE
+#include "wx/msw/dark_mode.h"
+#endif //_MSW_DARK_MODE
+
 //-----------------------------------------------------------------------------
 // classes
 //-----------------------------------------------------------------------------
@@ -5524,6 +5528,20 @@ wxHeaderCtrl* wxDataViewCtrl::GenericGetHeader() const
 }
 
 #ifdef __WXMSW__
+
+#ifdef _MSW_DARK_MODE
+void wxDataViewCtrl::RefreshHeaderDarkMode(wxFont* font)
+{
+    m_headerArea->RefreshDarkMode();
+
+    wxItemAttr attr;
+    attr.SetTextColour(NppDarkMode::GetTextColor());
+   if (font)
+        attr.SetFont(*font);
+    SetHeaderAttr(attr);
+}
+#endif // _MSW_DARK_MODE
+
 WXLRESULT wxDataViewCtrl::MSWWindowProc(WXUINT nMsg,
                                         WXWPARAM wParam,
                                         WXLPARAM lParam)
