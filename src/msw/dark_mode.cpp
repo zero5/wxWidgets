@@ -309,10 +309,10 @@ namespace NppDarkMode
 
     void SetDarkMode(bool dark_mode)
 	{
+        g_darkModeEnabled = dark_mode;
+
         if (!IsSupported())
             return;
-
-        g_darkModeEnabled = dark_mode;
 
         AllowDarkModeForApp(dark_mode);
         if (g_SystemMenuEnabled && _FlushMenuThemes)
@@ -394,7 +394,10 @@ namespace NppDarkMode
 
     int scaled(HWND hwnd, int val)
     {
-        float scale = (float)GetDpiForWindow(hwnd) / 96;
+        float scale = 1.0;
+        if (_GetDpiForWindow)
+            scale = (float)_GetDpiForWindow(hwnd) / 96;
+
         return std::round(scale * val);
     }
 
