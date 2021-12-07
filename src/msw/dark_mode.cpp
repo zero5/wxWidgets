@@ -508,7 +508,11 @@ namespace NppDarkMode
 
         if (iPartID == SBP_ARROWBTN)
         {
-            FrameRect(hdc, &rcClient, ::CreateSolidBrush(RGB(0x64, 0x64, 0x64)));
+        	{
+                HBRUSH hbrush = ::CreateSolidBrush(RGB(0x64, 0x64, 0x64));
+            	::FrameRect(hdc, &rcClient, hbrush);
+            	::DeleteObject(hbrush);
+            }
 
             dtFlags = DT_VCENTER | DT_CENTER;
 
