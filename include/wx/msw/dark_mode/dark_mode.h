@@ -67,6 +67,7 @@ struct WINDOWCOMPOSITIONATTRIBDATA
 using fnRtlGetNtVersionNumbers = void (WINAPI *)(LPDWORD major, LPDWORD minor, LPDWORD build);
 using fnSetWindowCompositionAttribute = BOOL (WINAPI *)(HWND hWnd, WINDOWCOMPOSITIONATTRIBDATA*);
 using fnGetDpiForWindow = UINT (WINAPI*)(_In_ HWND hwnd);
+using fnGetDpiForSystem = UINT(WINAPI*)();
 // 1809 17763
 using fnShouldAppsUseDarkMode = bool (WINAPI *)(); // ordinal 132
 using fnAllowDarkModeForWindow = bool (WINAPI *)(HWND hWnd, bool allow); // ordinal 133
@@ -83,6 +84,7 @@ using fnIsDarkModeAllowedForApp = bool (WINAPI *)(); // ordinal 139
 
 fnSetWindowCompositionAttribute _SetWindowCompositionAttribute = nullptr;
 fnGetDpiForWindow _GetDpiForWindow = nullptr;
+fnGetDpiForSystem _GetDpiForSystem = nullptr;
 fnShouldAppsUseDarkMode _ShouldAppsUseDarkMode = nullptr;
 fnAllowDarkModeForWindow _AllowDarkModeForWindow = nullptr;
 fnAllowDarkModeForApp _AllowDarkModeForApp = nullptr;
@@ -258,6 +260,7 @@ void InitDarkMode()
 				_SetWindowCompositionAttribute = reinterpret_cast<fnSetWindowCompositionAttribute>(GetProcAddress(GetModuleHandleW(L"user32.dll"), "SetWindowCompositionAttribute"));
 
 				_GetDpiForWindow = reinterpret_cast<fnGetDpiForWindow>(GetProcAddress(GetModuleHandleW(L"user32.dll"), "GetDpiForWindow"));
+                _GetDpiForSystem = reinterpret_cast<fnGetDpiForSystem>(GetProcAddress(GetModuleHandleW(L"user32.dll"), "GetDpiForSystem"));
 
 				if (_OpenNcThemeData &&
 					_RefreshImmersiveColorPolicyState &&
