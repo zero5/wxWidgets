@@ -395,9 +395,9 @@ namespace NppDarkMode
     int scaled(HWND hwnd, int val)
     {
         float scale = 1.0;
-        if (_GetDpiForWindow)
-            scale = (float)_GetDpiForWindow(hwnd) / 96;
-
+        // Both GetDpiForWindow and GetDpiForSystem shall be supported since Windows 10, version 1607
+        if (_GetDpiForWindow && _GetDpiForSystem)
+            scale = float(_GetDpiForWindow(hwnd)) / _GetDpiForSystem();
         return std::round(scale * val);
     }
 
@@ -457,7 +457,7 @@ namespace NppDarkMode
             hFont = (HFONT)::GetStockObject(wxSYS_DEFAULT_GUI_FONT);
             if (hFont && ::GetObject(hFont, sizeof(LOGFONT), &lf) != 0)
             {
-                lf.lfHeight = scaled(hwnd, lf.lfHeight);//std::round(scale * lf.lfHeight);
+                lf.lfHeight = scaled(hwnd, lf.lfHeight);
                 lf.lfWeight = FW_BOLD;
                 hCreatedFont = CreateFontIndirect(&lf);
                 hFont = hCreatedFont;
