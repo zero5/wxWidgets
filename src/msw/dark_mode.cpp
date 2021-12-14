@@ -439,7 +439,7 @@ namespace NppDarkMode
         DWORD uiState = static_cast<DWORD>(SendMessage(hwnd, WM_QUERYUISTATE, 0, 0));
         DWORD nStyle = GetWindowLong(hwnd, GWL_STYLE);
 
-        HFONT hFont = nullptr;
+/*        HFONT hFont = nullptr;
         HFONT hOldFont = nullptr;
         HFONT hCreatedFont = nullptr;
         LOGFONT lf = { 0 };
@@ -451,17 +451,6 @@ namespace NppDarkMode
 
         if (!hFont) {
             hFont = reinterpret_cast<HFONT>(SendMessage(hwnd, WM_GETFONT, 0, 0));
-        }
-                
-        if (!hFont) {
-            hFont = (HFONT)::GetStockObject(wxSYS_DEFAULT_GUI_FONT);
-            if (hFont && ::GetObject(hFont, sizeof(LOGFONT), &lf) != 0)
-            {
-                lf.lfHeight = scaled(hwnd, lf.lfHeight);
-                lf.lfWeight = FW_BOLD;
-                hCreatedFont = CreateFontIndirect(&lf);
-                hFont = hCreatedFont;
-            }
         }
 
         hOldFont = static_cast<HFONT>(SelectObject(hdc, hFont));
@@ -505,58 +494,64 @@ namespace NppDarkMode
         {
             dtto.crText = GetSofterBackgroundColor();
         }
+*/
+        GetClientRect(hwnd, &rcClient);
+        DrawThemeParentBackground(hwnd, hdc, &rcClient);
 
         if (iPartID == SBP_ARROWBTN)
         {
-        	{
+            {
                 HBRUSH hbrush = ::CreateSolidBrush(RGB(0x64, 0x64, 0x64));
             	::FrameRect(hdc, &rcClient, hbrush);
             	::DeleteObject(hbrush);
             }
 
-            dtFlags = DT_VCENTER | DT_CENTER;
+            COLORREF color = nStyle & WS_DISABLED ? GetSofterBackgroundColor() : GetSofterTextColor();
 
-            int expectedTextRectHeight = 2 * rcText.top - lf.lfHeight;
-            int rcTextHeight = rcText.bottom - rcText.top;
+            HPEN hPen = CreatePen(PS_SOLID, 1, color);
+            HPEN hOldPen = SelectPen(hdc, hPen);
 
-            RECT rcTextUp = rcClient;
-            rcTextUp.top = (expectedTextRectHeight - rcTextHeight) * 0.5;
-            rcTextUp.bottom = rcTextUp.top + expectedTextRectHeight;
-            szText[0] = L'\u2BC5'; // Up arrow
+            HBRUSH hBrush = CreateSolidBrush(color);
+            HBRUSH hOldBrush = SelectBrush(hdc, hBrush);
 
-            DrawThemeTextEx(hTheme, hdc, iPartID, iStateID, szText, -1, dtFlags, &rcTextUp, &dtto);
+            // Up arrow
+            RECT rcFocus = rcClient;
+            rcFocus.bottom *= 0.5;
+            rcFocus.left += 1;
+            InflateRect(&rcFocus, -1, -1);
+
+            int triangle_edge = int(0.25 * (rcClient.right - rcClient.left));
+
+            int left_pos = triangle_edge + 1;
+            int shift_from_center = 0.5 * triangle_edge;
+            int bottom_pos = rcFocus.bottom - shift_from_center;
+            rcFocus.bottom += 1;
+            POINT vertices_up[] = { {left_pos, bottom_pos }, {left_pos + triangle_edge, bottom_pos - triangle_edge}, {left_pos + 2*triangle_edge, bottom_pos} };
+            Polygon(hdc, vertices_up, 3);
 
             if (iStateID == ARROWBTNSTATES::ABS_UPHOT)
-            {
-                dtto.dwFlags |= DTT_CALCRECT;
-                DrawThemeTextEx(hTheme, hdc, iPartID, iStateID, szText, -1, dtFlags | DT_CALCRECT, &rcTextUp, &dtto);
-                RECT rcFocus = rcClient;
-                rcFocus.top++;
-                rcFocus.bottom *= 0.5;
-                rcFocus.left+=2;
-                rcFocus.right--;
                 DrawFocusRect(hdc, &rcFocus);
-            }
 
-            RECT rcTextDown = rcClient;
-            rcTextDown.top = rcTextDown.bottom - expectedTextRectHeight + 1;
-            szText[0] = L'\u2BC6'; // Down arrow
+            // Down arrow
+            rcFocus = rcClient;
+            rcFocus.top = 0.5 * rcFocus.bottom;
+            rcFocus.left += 1;
+            InflateRect(&rcFocus, -1, -1);
 
-            DrawThemeTextEx(hTheme, hdc, iPartID, iStateID, szText, -1, dtFlags, &rcTextDown, &dtto);
+            int top_pos = rcFocus.top + shift_from_center;
+            POINT vertices_down[] = { {left_pos, top_pos }, {left_pos + triangle_edge, top_pos + triangle_edge}, {left_pos + 2 * triangle_edge, top_pos} };
+            Polygon(hdc, vertices_down, 3);
 
             if (iStateID == ARROWBTNSTATES::ABS_DOWNHOT)
-            {
-                dtto.dwFlags |= DTT_CALCRECT;
-                DrawThemeTextEx(hTheme, hdc, iPartID, iStateID, szText, -1, dtFlags | DT_CALCRECT, &rcTextDown, &dtto);
-                RECT rcFocus = rcClient;
-                rcFocus.top = 0.5*rcFocus.bottom+1;
-                rcFocus.bottom--;
-                rcFocus.left+=2;
-                rcFocus.right--;
                 DrawFocusRect(hdc, &rcFocus);
-            }
+
+            SelectBrush(hdc, hOldBrush);
+            DeleteObject(hBrush);
+
+            SelectPen(hdc, hOldPen);
+            DeleteObject(hPen);
         }
-        else
+/*        else
             DrawThemeTextEx(hTheme, hdc, iPartID, iStateID, szText, -1, dtFlags, &rcText, &dtto);
 
         if ((nState & BST_FOCUS) && !(uiState & UISF_HIDEFOCUS))
@@ -573,7 +568,7 @@ namespace NppDarkMode
 
         if (hCreatedFont) DeleteObject(hCreatedFont);
         SelectObject(hdc, hOldFont);
-    }
+*/    }
 
     void paintButton(HWND hwnd, HDC hdc, ButtonData& buttonData)
     {
