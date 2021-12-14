@@ -434,12 +434,12 @@ namespace NppDarkMode
     void renderButton(HWND hwnd, HDC hdc, HTHEME hTheme, int iPartID, int iStateID)
     {
         RECT rcClient = { 0 };
-        WCHAR szText[256] = { 0 };
+        DWORD nStyle = GetWindowLong(hwnd, GWL_STYLE);
+/*        WCHAR szText[256] = { 0 };
         DWORD nState = static_cast<DWORD>(SendMessage(hwnd, BM_GETSTATE, 0, 0));
         DWORD uiState = static_cast<DWORD>(SendMessage(hwnd, WM_QUERYUISTATE, 0, 0));
-        DWORD nStyle = GetWindowLong(hwnd, GWL_STYLE);
 
-/*        HFONT hFont = nullptr;
+        HFONT hFont = nullptr;
         HFONT hOldFont = nullptr;
         HFONT hCreatedFont = nullptr;
         LOGFONT lf = { 0 };
