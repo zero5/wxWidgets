@@ -264,14 +264,6 @@ WXLRESULT wxTopLevelWindowMSW::MSWWindowProc(WXUINT message, WXWPARAM wParam, WX
     {
 #ifdef _MSW_DARK_MODE
         case WM_NCACTIVATE:
-        {
-            // Note: lParam is -1 to prevent endless loops of calls
-            ::SendMessage(hwnd, WM_NCACTIVATE, wParam, -1);
-            rc = ::DefWindowProc(hwnd, message, wParam, lParam);
-            if (NppDarkMode::IsEnabled())
-                NppDarkMode::DrawUAHMenuNCBottomLine(hwnd);
-            return rc;
-        }
         case WM_NCPAINT:
         {
             rc = ::DefWindowProc(hwnd, message, wParam, lParam);
