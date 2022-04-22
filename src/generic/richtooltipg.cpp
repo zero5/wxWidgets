@@ -71,6 +71,38 @@ public:
     {
         Create(parent, wxFRAME_SHAPED);
 
+        // By default wxPopupTransientWindow is created on the primary display even if its parent is on the Secondary Display.
+        // When the primary and the secondary displays have different DPIs, layaout and sizes of controls are calculated using
+        // primary display's DPI settings (via GetBestSize()). Since the window eventually will be shown on the secondary display
+        // the layout and sizes of its controlls are gong to be incorrect.
+        // The following code moves the newly created PopupWindow over the parent window where it is going to be displayed.
+        // As the result GetBestSize() will use the correct DPI and control layout and sizes will be calculate properly.
+        if (parent && wxDisplay(parent).GetPPI() != wxDisplay(this).GetPPI())
+        {
+            const wxRect rectDisplay(wxDisplay(parent).GetClientArea());
+            wxRect rectParent = parent->GetScreenRect();
+
+            // we don't want to place the window off screen if Centre() is called as
+            // this is (almost?) never wanted and it would be very difficult to prevent
+            // it from happening from the user code if we didn't check for it here
+            if (!rectDisplay.Contains(rectParent.GetTopLeft()))
+            {
+                // move the window just enough to make the corner visible
+                int dx = rectDisplay.GetLeft() - rectParent.GetLeft();
+                int dy = rectDisplay.GetTop() - rectParent.GetTop();
+                rectParent.Offset(dx > 0 ? dx : 0, dy > 0 ? dy : 0);
+            }
+            if (!rectDisplay.Contains(rectParent.GetBottomRight()))
+            {
+                // do the same for this corner too
+                int dx = rectDisplay.GetRight() - rectParent.GetRight();
+                int dy = rectDisplay.GetBottom() - rectParent.GetBottom();
+                rectParent.Offset(dx < 0 ? dx : 0, dy < 0 ? dy : 0);
+            }
+
+            // -1 could be valid coordinate here if there are several displays
+            SetSize(rectParent, wxSIZE_ALLOW_MINUS_ONE);
+        }
 
         wxBoxSizer* const sizerTitle = new wxBoxSizer(wxHORIZONTAL);
         if ( icon.IsOk() )
