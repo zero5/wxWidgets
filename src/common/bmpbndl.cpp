@@ -653,13 +653,38 @@ wxBitmapBundle::CreateImageList(wxWindow* win,
     wxCHECK_MSG( win, NULL, "must have a valid window" );
     wxCHECK_MSG( !bundles.empty(), NULL, "should have some images" );
 
+#ifdef __WXOSX__
+
+    wxSize phy_img_size = bundles[0].GetDefaultSize();
+    wxImageList* const iml = new wxImageList(phy_img_size.x, phy_img_size.y);
+
+#if wxOSX_USE_COCOA
+    wxBitmapBundleImpl* impl = bundles[0].GetImpl();
+    // unconditionally try to add a 2x version, if there really is a different one
+    wxSize size = impl->GetPreferredBitmapSizeAtScale(2.0);
+#else
+    double scale = wxOSXGetMainScreenContentScaleFactor();
+    wxSize scaledSize = phy_img_size * scale;
+    wxBitmap bmp = const_cast<wxBitmapBundleImpl*>(impl)->GetBitmap(scaledSize);
+    wxSize size = bmp.IsOk() ? scaledSize : phy_img_size;
+#endif
+
+#else
+
+    // We arbitrarily choose the default size of the first bundle as the
+    // default size for the image list too, as it's not clear what else could
+    // we do here. Note that this size is only used to break the tie in case
+    // the same number of bundles prefer two different sizes, so it's not going
+    // to matter at all in most cases.
     wxSize size = GetConsensusSizeFor(win, bundles);
 
     // wxImageList wants the logical size for the platforms where logical and
     // physical pixels are different.
-    size /= win->GetContentScaleFactor();
+    wxSize img_size = size / win->GetContentScaleFactor();
 
-    wxImageList* const iml = new wxImageList(size.x, size.y);
+    wxImageList* const iml = new wxImageList(img_size.x, img_size.y);
+
+#endif //__WXOSX__
 
     for ( size_t n = 0; n < bundles.size(); ++n )
     {
