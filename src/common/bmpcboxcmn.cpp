@@ -68,7 +68,14 @@ void wxBitmapComboBoxBase::UpdateInternals()
         m_bitmapbundles.push_back( wxBitmapBundle() );
 
     if ( m_usedImgSize.x != -1 && m_bitmapbundles.size() > 0 )
-        m_usedImgSize = m_bitmapbundles[0].GetPreferredLogicalSizeFor(GetControl());
+    {
+        m_usedImgSize = wxBitmapBundle::GetConsensusSizeFor
+        (
+            GetControl(),
+            m_bitmapbundles,
+            wxSize(0, 0)
+        );
+    }
 }
 
 // ----------------------------------------------------------------------------
