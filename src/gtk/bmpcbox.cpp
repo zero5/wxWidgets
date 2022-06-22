@@ -184,13 +184,16 @@ wxSize wxBitmapComboBox::DoGetBestSize() const
 
 void wxBitmapComboBox::SetItemBitmap(unsigned int n, const wxBitmapBundle& bitmap)
 {
-    wxBitmap bmp = bitmap.GetBitmapFor(this);
+//    wxBitmap bmp = bitmap.GetBitmapFor(this);
+    wxBitmap bmp = bitmap.GetBitmap(wxDefaultSize);
     if ( bmp.IsOk() )
     {
         if ( m_bitmapSize.x < 0 )
         {
-            m_bitmapSize.x = bmp.GetLogicalWidth();
-            m_bitmapSize.y = bmp.GetLogicalHeight();
+            //m_bitmapSize.x = bmp.GetLogicalWidth();
+            //m_bitmapSize.y = bmp.GetLogicalHeight();
+            m_bitmapSize.x = bmp.GetWidth();
+            m_bitmapSize.y = bmp.GetHeight();
         }
 
         GtkComboBox* combobox = GTK_COMBO_BOX( m_widget );
