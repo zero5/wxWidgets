@@ -114,24 +114,18 @@ wxUint32 wxLanguageInfo::GetLCID() const
 
 const char* wxLanguageInfo::TrySetLocale() const
 {
-    wxString locale;
+    // Prefer to use the locale names instead of locale identifiers if
+    // supported, both at the OS level (LOCALE_SNAME) and by the CRT (check by
+    // calling setlocale()).
+    const char* const retloc = wxSetlocale(LC_ALL, GetCanonicalWithRegion());
+    if ( retloc )
+        return retloc;
 
+    // Fall back to LOCALE_SENGLANGUAGE
     const LCID lcid = GetLCID();
 
     wxChar buffer[256];
     buffer[0] = wxT('\0');
-
-    // Prefer to use the new (Vista and later) locale names instead of locale
-    // identifiers if supported, both at the OS level (LOCALE_SNAME) and by the
-    // CRT (check by calling setlocale()).
-    if ( wxGetWinVersion() >= wxWinVersion_Vista )
-    {
-        locale = LocaleTag;
-        const char* const retloc = wxSetlocale(LC_ALL, locale);
-        if ( retloc )
-            return retloc;
-        //else: fall back to LOCALE_SENGLANGUAGE
-    }
 
     if ( !::GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, buffer, WXSIZEOF(buffer)) )
     {
@@ -139,7 +133,7 @@ const char* wxLanguageInfo::TrySetLocale() const
         return NULL;
     }
 
-    locale = buffer;
+    wxString locale = buffer;
     if ( ::GetLocaleInfo(lcid, LOCALE_SENGCOUNTRY,
                         buffer, WXSIZEOF(buffer)) > 0 )
     {
